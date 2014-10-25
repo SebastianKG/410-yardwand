@@ -15,6 +15,7 @@ public class NewCollaboratorDetector {
 	{ 	collaborators_activities=new CollaboratorsActivities();
 		this.url=url;
 	}	
+
 	public CollaboratorsActivities getAnalysis()
 	{	
 		String response;
@@ -34,11 +35,11 @@ public class NewCollaboratorDetector {
 				for(int j=0; j< weeksArray.length();j++)
 				{
 					JSONObject weekObject = weeksArray.getJSONObject(j);
-					String w=weekObject.getString("w");
-					String a=weekObject.getString("a");
-					String d=weekObject.getString("d");
-					String c=weekObject.getString("c");
-					collaborators_activities.updateActivity(Double.parseDouble(w),Integer.parseInt(a),Integer.parseInt(d),Integer.parseInt(c));
+					Double w=weekObject.getDouble("w");
+					int a=weekObject.getInt("a");
+					int d=weekObject.getInt("d");
+					int c=weekObject.getInt("c");
+					collaborators_activities.updateActivity(w,a,d,c);
 					
 				}
 			}
