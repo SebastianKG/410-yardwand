@@ -1,7 +1,5 @@
 package analysis;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,23 +13,7 @@ public class NewCollaboratorDetector {
 	public NewCollaboratorDetector(String url)
 	{ 	collaborators_activities=new CollaboratorsActivities();
 		this.url=url;
-	}
-	public static void main(String[] args)
-	{
-		NewCollaboratorDetector n=new NewCollaboratorDetector("https://api.github.com/repos/zxing/zxing/stats/contributors");
-		CollaboratorsActivities x=n.getAnalysis();
-	
-		HashMap<Double,Activity> map=x.getActivities();
-		Iterator it=map.entrySet().iterator();
-		
-		while(it.hasNext())
-		{
-			 Map.Entry pairs = (Map.Entry)it.next();
-			Activity a= (Activity)pairs.getValue();
-				System.out.println(pairs.getKey().toString()+" "+ a.getAddition()+" "+a.getDeletion()+" "+a.getCommits() );
-				
-		}
-	}
+	}	
 	public CollaboratorsActivities getAnalysis()
 	{	
 		String response;
