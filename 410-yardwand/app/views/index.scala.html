@@ -17,6 +17,7 @@
 		height: 399px;
 		width: 600px;
 		margin-left:100px;
+		position:relative;
 	}
 	
 	.half-window h1 {
@@ -34,6 +35,7 @@
 		margin-top: 65px;
 		width: 150px;
 		height: 200px;
+		z-index:100;
 	}
 	
 	.message {
@@ -48,6 +50,17 @@
 	#second .character {
 		background-color: #00ff00;
 	}
+	
+	.distance-marker {
+		border-left: 5px solid gray;
+		height: 10px;
+		width: 20px;
+		padding-top: 100px;
+		padding-left: 15px;
+		position: absolute;
+		top: 250px;
+		z-index:-999;
+	}
 </style>
 
 @main("410 Project") {
@@ -58,6 +71,7 @@
 	    		<div class="sprite"></div>
 	    		<div class="message">Message</div>
 	    	</div>
+	    	<div class="markers"></div>
 	    </div>
 	    
 	    <div class="separator"></div>
@@ -68,6 +82,7 @@
 		    	<div class="sprite"></div>
 		    	<div class="message">Message</div>
 	    	</div>
+	    	<div class="markers"></div>
 	    </div>
 	</div>
 }
@@ -84,8 +99,16 @@
 	})();
 
 	$(document).ready(function() {
+		updateMarkers();
 		loop();
 	});
+	
+	const scaleFactor = 40;
+	const meterIncrement = 10;
+	const framesPerWeek = 100;
+	
+	var firstPosition = 0;
+	var secondPosition = 0;
 	
 	var firstListWeights = @Html(firstListWeights.toString());
 	var secondListWeights = @Html(secondListWeights.toString());
@@ -97,29 +120,62 @@
 	
 	var frameCount = 0;
 	function loop() {
-		if ((frameCount / 30) < firstListWeights.length) {
+		if ((frameCount / framesPerWeek) < firstListWeights.length) {
 			console.log("Frame Count: " + frameCount);
 		
 			requestAnimFrame(loop);
 			updateFirstRepo(frameCount);
 			updateSecondRepo(frameCount);
+			updateMarkers();
 			frameCount++;
 		}
 	}
 	
+	function updateMarkers() {
+		updateFirstRepoMarkers();
+		updateSecondRepoMarkers();
+	}
+
+	function updateFirstRepoMarkers() {
+		$markers = $('#first .markers');
+		$markers.html('');
+		for(var i = firstPosition - 100; i < firstPosition + 700; i+=1) {
+			if(i % (scaleFactor * meterIncrement) == 0) {
+				$markers.append('<div class="distance-marker" style="left: ' + i + '" >' + i/scaleFactor + 'm</div>');
+			}
+		}
+	}
+	
+	function updateSecondRepoMarkers() {
+		$markers = $('#second .markers');
+		$markers.html('');
+		console.log("new position: " + secondPosition);
+		for(var i = secondPosition - 100; i < secondPosition + 700; i+=1) { 
+			if(i % (scaleFactor * meterIncrement) == 0) {
+				$markers.append('<div class="distance-marker" style="left: ' + i + '" >' + i/scaleFactor + 'm</div>');
+			}
+		}
+	}
+	
 	function updateFirstRepo( frameNum ) { 
-		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum);
+		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum, firstPosition);
 	} 
 	
 	function updateSecondRepo( frameNum ) { 
-		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum);
-	} 
+		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum, secondPosition);
+	}
 	
-	function updateHalfWindow( $window, weights, speeds, frameNum ) {
-		if (window.frameCount % 30 == 0) {
+	function updateHalfWindow( $window, weights, speeds, frameNum, positionVar ) {
+		if (window.frameCount % framesPerWeek == 0) {
 			// change weight appearance
 		}
 		
-		currIndex = Math.floor();
+		currIndex = Math.floor(window.frameCount / framesPerWeek);
+		
+		if ($window.attr('id') == "first") {
+			firstPosition += speeds[currIndex] * scaleFactor;
+		} else if ($window.attr('id') == "second"){
+			secondPosition += speeds[currIndex] * scaleFactor;
+		}
 	}
 </script>
