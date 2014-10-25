@@ -1,14 +1,26 @@
+/*
+ * CommitMetricPairingModule - A singleton that does the actual fusion of the analysis
+ * components. Part of the UBC CPSC 410 yardwand project.
+ * 
+ * Author: Eric Furugori
+ */
+
 package fusion;
 
-import models.Repository;
-
 public class CommitMetricPairingModule {
-	public Repository repo1;
-	public Repository repo2;
 	
-	public CommitMetricPairingModule(String repopath1, String repopath2) {
-		repo1 = new Repository(repopath1);
-		repo2 = new Repository(repopath2);
+	private CommitMetricPairingModule() {}
+	
+	private static class Instantiator {
+		private static final CommitMetricPairingModule INSTANCE = new CommitMetricPairingModule();
+	}
+	
+	public static CommitMetricPairingModule getInstance() {
+		return Instantiator.INSTANCE;
+	}
+	
+	public static void compare() {
+		
 	}
 
 }
