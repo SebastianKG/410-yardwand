@@ -1,12 +1,125 @@
-@(firstname: String, firstStatList: List[Stat], lastname: String, lastStatList: List[Stat])
+@(firstName: String, secondName:String, firstListWeights: List[Integer], secondListWeights:List[Integer], firstListSpeeds: List[Integer], secondListSpeeds: List[Integer])
+
+<style>
+	html {
+		font-family: sans-serif;
+	}
+	
+	#wrapper {
+		border: 1px solid black;
+		height: 800px;
+		width: 800px;
+		margin: 0 auto;
+	}
+
+	.half-window {
+		padding-top: 5px;
+		height: 399px;
+		width: 600px;
+		margin-left:100px;
+	}
+	
+	.half-window h1 {
+		margin-top: 30px;
+		margin-bottom: -30px;
+	}
+	
+	.separator {
+		height: 1px;
+		width: 800px;
+		background-color:#000;
+	}
+	
+	.character {
+		margin-top: 65px;
+		width: 150px;
+		height: 200px;
+	}
+	
+	.message {
+		margin-left: 160px;
+		padding-top: 30px;
+	}
+	
+	#first .character {
+		background-color: #ff0000;
+	}
+	
+	#second .character {
+		background-color: #00ff00;
+	}
+</style>
 
 @main("410 Project") {
-
-    <h1>@firstname</h1>
-    <h1>@lastname</h1>
-
+	<div id="wrapper">
+		<div id="first" class="half-window">
+	    	<h1>@firstName</h1>
+	    	<div class="character">
+	    		<div class="sprite"></div>
+	    		<div class="message">Message</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="separator"></div>
+	    
+	    <div id="second" class="half-window">
+	    	<h1>@secondName</h1>
+	    	<div class="character">
+		    	<div class="sprite"></div>
+		    	<div class="message">Message</div>
+	    	</div>
+	    </div>
+	</div>
 }
 
 <script>
+	// referencing http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+	window.requestAnimFrame = (function(){
+	  return  window.requestAnimationFrame       ||
+	          window.webkitRequestAnimationFrame ||
+	          window.mozRequestAnimationFrame    ||
+	          function( callback ){
+	            window.setTimeout(callback, 1000 / 60);
+	          };
+	})();
 
+	$(document).ready(function() {
+		loop();
+	});
+	
+	var firstListWeights = @Html(firstListWeights.toString());
+	var secondListWeights = @Html(secondListWeights.toString());
+	
+	var firstListSpeeds = @Html(firstListSpeeds.toString());
+	var secondListSpeeds = @Html(secondListSpeeds.toString());
+	
+	console.log("ListWeights length: " + firstListWeights.length);
+	
+	var frameCount = 0;
+	function loop() {
+		if ((frameCount / 30) < firstListWeights.length) {
+			console.log("Frame Count: " + frameCount);
+		
+			requestAnimFrame(loop);
+			updateFirstRepo(frameCount);
+			updateSecondRepo(frameCount);
+			frameCount++;
+		}
+	}
+	
+	function updateFirstRepo( frameNum ) { 
+		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum);
+	} 
+	
+	function updateSecondRepo( frameNum ) { 
+		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum);
+	} 
+	
+	function updateHalfWindow( $window, weights, speeds, frameNum ) {
+		if (window.frameCount % 30 == 0) {
+			// change weight appearance
+		}
+		
+		currIndex = Math.floor();
+	}
 </script>
