@@ -99,6 +99,7 @@ public class SimianOutputParser {
 			File file = new File("temp");
 			FileUtils.copyURLToFile(url, file);
 			s = FileUtils.readFileToString(file);
+			file.delete();
 			//System.out.println(s);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="410-yardwand/app"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/TARDIS/Documents/cs410/410-yardwand/lib/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="/Users/TARDIS/Documents/cs410/410-yardwand/lib/json-20140107.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/json-20140107.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
