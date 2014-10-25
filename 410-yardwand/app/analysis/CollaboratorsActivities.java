@@ -10,10 +10,10 @@ public class CollaboratorsActivities {
 	
 		public CollaboratorsActivities()
 		{
-			authorlist=new ArrayList<String>();
-			activityMap=new HashMap<Double,Activity>();
+			authorlist = new ArrayList<String>();
+			activityMap = new HashMap<Double,Activity>();
 		}
-		public void addAuhtor(String author)
+		public void addAuthor(String author)
 		{
 			authorlist.add(author);
 		}
@@ -28,7 +28,7 @@ public class CollaboratorsActivities {
 		public void updateActivity(Double date,int addition,int deletion, int commits)
 		{
 			Activity activity=activityMap.get(date);
-			if (activity==null){
+			if (activity == null){
 				activityMap.put(date, new Activity(addition, deletion, commits));
 			}
 			else

@@ -1,8 +1,9 @@
 package analysis;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
 
 public class NewCollaboratorDetector {
 	private String url;
@@ -27,7 +28,7 @@ public class NewCollaboratorDetector {
 				JSONObject jo= array.getJSONObject(i);
 				JSONObject authorObject = jo.getJSONObject("author");
 				String author= authorObject.getString("login");
-				collaborators_activities.addAuhtor(author);
+				collaborators_activities.addAuthor(author);
 				
 				JSONArray weeksArray= jo.getJSONArray("weeks");
 				for(int j=0; j< weeksArray.length();j++)
