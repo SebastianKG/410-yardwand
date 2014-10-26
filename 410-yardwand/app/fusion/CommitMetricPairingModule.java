@@ -46,16 +46,16 @@ public class CommitMetricPairingModule {
         	@SuppressWarnings("rawtypes")
 			Map.Entry pairs = (Map.Entry) it1.next();
         	Activity a= (Activity)pairs.getValue();
-        	System.out.println(pairs.getKey().toString() + " " + 
-        			a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
+        	//System.out.println(pairs.getKey().toString() + " " + 
+        	//		a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
         }
         
         while (it2.hasNext()) {
         	@SuppressWarnings("rawtypes")
 			Map.Entry pairs = (Map.Entry) it2.next();
         	Activity a= (Activity)pairs.getValue();
-        	System.out.println(pairs.getKey().toString() + " " + 
-        			a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
+        	//System.out.println(pairs.getKey().toString() + " " + 
+        	//		a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
         }
 	}
 	

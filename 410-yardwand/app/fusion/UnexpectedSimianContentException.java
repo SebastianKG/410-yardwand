@@ -11,7 +11,16 @@ package fusion;
 
 @SuppressWarnings("serial")
 public class UnexpectedSimianContentException extends Exception {
-	UnexpectedSimianContentException(String e) {
-		super(e);
+	
+	UnexpectedSimianContentException(String message) {
+		super(message);
+	}
+	
+	UnexpectedSimianContentException(Exception cause) {
+		super(cause);
+	}
+	
+	UnexpectedSimianContentException(String message, Exception cause) {
+		super(message, cause);
 	}
 }
