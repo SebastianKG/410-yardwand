@@ -18,7 +18,7 @@ public class Application extends Controller {
     	String repopath1 = "repopath1.html";
     	String repopath2 = "repopath2.html";
     	
-    	pairingModule = new CommitMetricPairingModule("repopath1.html","repopath2.html");
+    	pairingModule = CommitMetricPairingModule.getInstance();
     	
     	/*return ok( index.render(repopath1, pairingModule.repo1.statList, repopath2, pairingModule.repo2.statList) );*/
     	
@@ -27,17 +27,19 @@ public class Application extends Controller {
     	Stat testStat3 = new Stat();
     	Stat testStat4 = new Stat();
     	
-    	testStat1.weight = testStat2.weight = 5;
-    	testStat1.stepSpeed = testStat3.stepSpeed = 20;
+    	testStat1.weight = testStat2.weight = 5.0;
+    	testStat3.weight = testStat4.weight = 0.001;
     	
-    	testStat3.weight = testStat4.weight = 10;
-    	testStat2.stepSpeed = testStat4.stepSpeed = 10;
+    	testStat1.stepSpeed = 0.1;
+    	testStat2.stepSpeed = 0.2;
+    	testStat3.stepSpeed = 0.45;
+    	testStat4.stepSpeed = 1.0;
     	
     	Repository testRepo1 = new Repository( "P1.path" );
     	testRepo1.statList = new LinkedList<Stat>();
     	testRepo1.statList.addAll( 
     				Arrays.asList(
-    					new Stat[] { testStat1, testStat1, testStat2, testStat4 }
+    					new Stat[] { testStat1, testStat2, testStat3, testStat1 }
     				)  
     			);
     	
@@ -45,7 +47,7 @@ public class Application extends Controller {
     	testRepo2.statList = new LinkedList<Stat>();
     	testRepo2.statList.addAll( 
     				Arrays.asList(
-    					new Stat[] { testStat2, testStat2, testStat1, testStat3 }
+    					new Stat[] { testStat2, testStat4, testStat1, testStat2 }
     				)
     			);
     	
@@ -59,8 +61,8 @@ public class Application extends Controller {
 
     }
     
-    private static List<Integer> getWeights( List<Stat> statList ) {
-    	List<Integer> weights = new LinkedList<Integer>();
+    private static List<Double> getWeights( List<Stat> statList ) {
+    	List<Double> weights = new LinkedList<Double>();
     	
     	for (Stat stat: statList) {
     		weights.add( stat.weight );
@@ -69,8 +71,8 @@ public class Application extends Controller {
     	return weights;
     }
     
-    private static List<Integer> getSpeeds( List<Stat> statList ) {
-    	List<Integer> speeds = new LinkedList<Integer>();
+    private static List<Double> getSpeeds( List<Stat> statList ) {
+    	List<Double> speeds = new LinkedList<Double>();
     	
     	for (Stat stat: statList) {
     		speeds.add( stat.stepSpeed );
