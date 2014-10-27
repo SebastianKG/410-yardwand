@@ -7,6 +7,7 @@
 
 package fusion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,6 +21,8 @@ public class CommitMetricPairingModule {
 	
 	private static NewCollaboratorDetector ncd1;
 	private static NewCollaboratorDetector ncd2;
+	private ArrayList<Activity> weeklyActivity1;
+	private ArrayList<Activity> weeklyActivity2;
 	
 	private CommitMetricPairingModule() {}
 	
@@ -45,7 +48,8 @@ public class CommitMetricPairingModule {
         while (it1.hasNext()) {
         	@SuppressWarnings("rawtypes")
 			Map.Entry pairs = (Map.Entry) it1.next();
-        	Activity a= (Activity)pairs.getValue();
+        	Activity a = (Activity) pairs.getValue();
+        	weeklyActivity1.add(a);
         	//System.out.println(pairs.getKey().toString() + " " + 
         	//		a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
         }
@@ -53,7 +57,8 @@ public class CommitMetricPairingModule {
         while (it2.hasNext()) {
         	@SuppressWarnings("rawtypes")
 			Map.Entry pairs = (Map.Entry) it2.next();
-        	Activity a= (Activity)pairs.getValue();
+        	Activity a = (Activity) pairs.getValue();
+        	weeklyActivity2.add(a);
         	//System.out.println(pairs.getKey().toString() + " " + 
         	//		a.getAddition() + " " + a.getDeletion() + " " + a.getCommits());
         }
