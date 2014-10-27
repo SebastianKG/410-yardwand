@@ -28,7 +28,7 @@ public class CommitMetricPairingModule {
 	
 	private static String REPO_URL1;
 	private static String REPO_URL2;
-	// REPO_SET: a "just in case". We require that setRepositoryURLs is run BEFORE run.
+	// REPO_SET: a "just in case". We require that setRepositoryURLs is run BEFORE generateStats.
 	private static Boolean REPO_SET = false;
 	
 	private NewCollaboratorDetector ncd1;
@@ -194,5 +194,6 @@ public class CommitMetricPairingModule {
 		cmpm.setRepositoryURLs("https://github.com/spring-projects/spring-framework",
 							   "https://github.com/junit-team/junit");
 		cmpm.generateStats();
+		// At this point you can run the getters for stat lists
 	}
 }
