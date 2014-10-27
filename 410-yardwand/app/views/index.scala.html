@@ -1,4 +1,4 @@
-@(firstName: String, secondName:String, firstListWeights: List[Integer], secondListWeights:List[Integer], firstListSpeeds: List[Integer], secondListSpeeds: List[Integer])
+@(firstName: String, secondName:String, firstListWeights: List[Double], secondListWeights:List[Double], firstListSpeeds: List[Double], secondListSpeeds: List[Double])
 
 <style>
 	html {
@@ -32,23 +32,39 @@
 	}
 	
 	.character {
-		margin-top: 65px;
-		width: 150px;
-		height: 200px;
+		margin-top: 30px;
+		margin-left: -120px;
+		width: 240px;
+		height: 300px;
 		z-index:100;
+		background-repeat:no-repeat;
+		background-position: bottom;
+		background-size: 400px 400px;
 	}
 	
 	.message {
 		margin-left: 160px;
 		padding-top: 30px;
+		font-weight: bold;
+		font-family: "courier";
+		font-size: 30px;
+		color: #0000cc;
 	}
 	
 	#first .character {
-		background-color: #ff0000;
+		background-image:url("assets/images/redrunner.gif");
+	}
+	
+	#first .still {
+		background-image:url("assets/images/redrunnerstill.png") !important;
 	}
 	
 	#second .character {
-		background-color: #00ff00;
+		background-image:url("assets/images/bluerunner.gif");
+	}
+	
+	#second .still {
+		background-image:url("assets/images/bluerunnerstill.png") !important;
 	}
 	
 	.distance-marker {
@@ -69,7 +85,7 @@
 	    	<h1>@firstName</h1>
 	    	<div class="character">
 	    		<div class="sprite"></div>
-	    		<div class="message">Message</div>
+	    		<div class="message"></div>
 	    	</div>
 	    	<div class="markers"></div>
 	    </div>
@@ -80,7 +96,7 @@
 	    	<h1>@secondName</h1>
 	    	<div class="character">
 		    	<div class="sprite"></div>
-		    	<div class="message">Message</div>
+		    	<div class="message"></div>
 	    	</div>
 	    	<div class="markers"></div>
 	    </div>
@@ -103,7 +119,7 @@
 		loop();
 	});
 	
-	const scaleFactor = 40;
+	const scaleFactor = 20;
 	const meterIncrement = 10;
 	const framesPerWeek = 100;
 	
@@ -128,6 +144,11 @@
 			updateSecondRepo(frameCount);
 			updateMarkers();
 			frameCount++;
+		} else {
+			$('#first .character').toggleClass('still');
+			$('#first .character .message').html(firstPosition/scaleFactor + 'm!');
+			$('#second .character').toggleClass('still');
+			$('#second .character .message').html(secondPosition/scaleFactor + "m!");
 		}
 	}
 	
@@ -141,7 +162,7 @@
 		$markers.html('');
 		for(var i = firstPosition - 100; i < firstPosition + 700; i+=1) {
 			if(i % (scaleFactor * meterIncrement) == 0) {
-				$markers.append('<div class="distance-marker" style="left: ' + i + '" >' + i/scaleFactor + 'm</div>');
+				$markers.append('<div class="distance-marker" style="left: ' + Math.floor(i - firstPosition) + '" >' + i/scaleFactor + 'm</div>');
 			}
 		}
 	}
@@ -152,20 +173,20 @@
 		console.log("new position: " + secondPosition);
 		for(var i = secondPosition - 100; i < secondPosition + 700; i+=1) { 
 			if(i % (scaleFactor * meterIncrement) == 0) {
-				$markers.append('<div class="distance-marker" style="left: ' + i + '" >' + i/scaleFactor + 'm</div>');
+				$markers.append('<div class="distance-marker" style="left: ' + Math.floor(i - secondPosition) + '" >' + i/scaleFactor + 'm</div>');
 			}
 		}
 	}
 	
 	function updateFirstRepo( frameNum ) { 
-		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum, firstPosition);
+		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum);
 	} 
 	
 	function updateSecondRepo( frameNum ) { 
-		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum, secondPosition);
+		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum);
 	}
 	
-	function updateHalfWindow( $window, weights, speeds, frameNum, positionVar ) {
+	function updateHalfWindow( $window, weights, speeds, frameNum ) {
 		if (window.frameCount % framesPerWeek == 0) {
 			// change weight appearance
 		}
