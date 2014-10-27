@@ -11,7 +11,7 @@ package fusion;
 import java.io.File;
 import java.net.URL;
 
-import org.apache.commons.io.FileUtils;
+// import org.apache.commons.io.FileUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +51,7 @@ public class SimianOutputParser {
 	 * 		If the matcher cannot find the summary line in the Simian output,
 	 * 		throw an exception.
 	 */
-	public void parse(String simianOutput) throws UnexpectedSimianContentException {
+	/*public void parse(String simianOutput) throws UnexpectedSimianContentException {
 		matcher = simianPattern.matcher(simianOutput);
 		if (matcher.find()) {
 			duplicateLineCount = Integer.parseInt(matcher.group(1));
@@ -62,29 +62,29 @@ public class SimianOutputParser {
 		}
 	}
 	
-	/**
+	*//**
 	 * Get the duplicate line count in the most recently parsed Simian output.
 	 * @return duplicateLineCount
 	 * 		The amount of duplicate lines in the last Simian analysis parse.
-	 */
+	 *//*
 	public static int getDuplicateLineCount() {
 		return duplicateLineCount;
 	}
 	
-	/**
+	*//**
 	 * Get the duplicate block count in the most recently parsed Simian output.
 	 * @return duplicateBlockCount
 	 * 		The amount of duplicate blocks in the last Simian analysis parse.
-	 */
+	 *//*
 	public static int getDuplicateBlockCount() {
 		return duplicateBlockCount;
 	}
 	
-	/**
+	*//**
 	 * Get the duplicate file count in the most recently parsed Simian output.
 	 * @return duplicateFileCount
 	 * 		The amount of duplicate files in the last Simian analysis parse.
-	 */
+	 *//*
 	public static int getDuplicateFileCount() {
 		return duplicateFileCount;
 	}
@@ -111,5 +111,5 @@ public class SimianOutputParser {
 		} catch (UnexpectedSimianContentException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
