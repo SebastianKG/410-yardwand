@@ -31,7 +31,7 @@ public class CommitMetricPairingModule {
 		return Instantiator.INSTANCE;
 	}
 	
-	/*public void compare(String url1, String url2) {
+	public void compare(String url1, String url2) {
 		ncd1 = new NewCollaboratorDetector(url1);
 		ncd2 = new NewCollaboratorDetector(url2);
 		CollaboratorsActivities ca1 = ncd1.getAnalysis();
@@ -65,5 +65,5 @@ public class CommitMetricPairingModule {
 		CommitMetricPairingModule cmpm = CommitMetricPairingModule.getInstance();
 		cmpm.compare("https://api.github.com/repos/zxing/zxing/stats/contributors",
 				"https://api.github.com/repos/SebastianKG/410-yardwand/stats/contributors");
-	}*/
+	}
 }
