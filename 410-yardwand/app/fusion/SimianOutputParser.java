@@ -8,13 +8,10 @@
 
 package fusion;
 
-import java.io.File;
-import java.net.URL;
-
-// import org.apache.commons.io.FileUtils;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import analysis.MockCodeDuplicationDetector;
 
 public class SimianOutputParser {
 	
@@ -51,7 +48,7 @@ public class SimianOutputParser {
 	 * 		If the matcher cannot find the summary line in the Simian output,
 	 * 		throw an exception.
 	 */
-	/*public void parse(String simianOutput) throws UnexpectedSimianContentException {
+	public void parse(String simianOutput) throws UnexpectedSimianContentException {
 		matcher = simianPattern.matcher(simianOutput);
 		if (matcher.find()) {
 			duplicateLineCount = Integer.parseInt(matcher.group(1));
@@ -62,30 +59,30 @@ public class SimianOutputParser {
 		}
 	}
 	
-	*//**
+	/**
 	 * Get the duplicate line count in the most recently parsed Simian output.
 	 * @return duplicateLineCount
 	 * 		The amount of duplicate lines in the last Simian analysis parse.
-	 *//*
-	public static int getDuplicateLineCount() {
+	 */
+	public int getDuplicateLineCount() {
 		return duplicateLineCount;
 	}
 	
-	*//**
+	/**
 	 * Get the duplicate block count in the most recently parsed Simian output.
 	 * @return duplicateBlockCount
 	 * 		The amount of duplicate blocks in the last Simian analysis parse.
-	 *//*
-	public static int getDuplicateBlockCount() {
+	 */
+	public int getDuplicateBlockCount() {
 		return duplicateBlockCount;
 	}
 	
-	*//**
+	/**
 	 * Get the duplicate file count in the most recently parsed Simian output.
 	 * @return duplicateFileCount
 	 * 		The amount of duplicate files in the last Simian analysis parse.
-	 *//*
-	public static int getDuplicateFileCount() {
+	 */
+	public int getDuplicateFileCount() {
 		return duplicateFileCount;
 	}
 	
@@ -95,12 +92,8 @@ public class SimianOutputParser {
 	public static void main(String[] args) {
 		String s = null;
 		try {
-			URL url = new URL("http://pastebin.com/raw.php?i=FHDGpCgT");
-			File file = new File("temp");
-			FileUtils.copyURLToFile(url, file);
-			s = FileUtils.readFileToString(file);
-			file.delete();
-			//System.out.println(s);
+			MockCodeDuplicationDetector mcdd = new MockCodeDuplicationDetector();
+			s = mcdd.getDuplicationString(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,5 +104,8 @@ public class SimianOutputParser {
 		} catch (UnexpectedSimianContentException e) {
 			e.printStackTrace();
 		}
-	}*/
+		System.out.println("f: " + duplicateFileCount);
+		System.out.println("b: " + duplicateBlockCount);
+		System.out.println("l: " + duplicateLineCount);
+	}
 }
