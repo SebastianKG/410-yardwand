@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import models.Stat;
-import fusion.CommitMetricPairingModule;
+import fusion.MetricComparator;
 import fusion.MockCommitMetricPairingModule;
 import play.*;
 import play.mvc.*;
