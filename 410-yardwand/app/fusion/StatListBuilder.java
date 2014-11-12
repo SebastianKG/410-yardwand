@@ -18,7 +18,7 @@ public class StatListBuilder {
 	/*
 	 * DECAY determines how quickly we "forget" about older commit information.
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
-	 * A DECAY of 0 corresponds to looking at all commits so far.
+	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
 	private static final double DECAY = 0.25;
 	
@@ -60,8 +60,8 @@ public class StatListBuilder {
 		int commits = getTotalCommits();
 		List<Double> collaboration = getCollaboration();
 		List<Double> velocities = getVelocities(bloat, commits, collaboration);
-		for (double v : velocities) {
-			stats.add(new Stat(bloat, v));
+		for (int i=0; i<velocities.size(); i++) {
+			stats.add(new Stat(bloat, velocities.get(0), collaboration.get(i)));
 		}
 	}
 	
@@ -98,7 +98,10 @@ public class StatListBuilder {
 	/**
 	 * Calculate a collaboration measurement based on how recently
 	 * a repository has been committed to and how many commits were performed.
-	 * TODO: test this.
+	 * We calculate this by:
+	 * MOST_RECENT_COLLABORATION + 4*DEVIATION
+	 * TODO: test this. Formula subject to change depending on how much we
+	 * 	want collaboration to affect velocity.
 	 * TODO: may want to look at weekly line additions and deletions.
 	 * @return collaborators
 	 * 		An <code>ArrayList</code> of <code>Double</code> containing the
