@@ -1,30 +1,19 @@
 package analysis;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 
 public class CollaboratorsActivities {
 
-	private ArrayList<String> authorlist;
+	private HashMap<String,String> authorMap;
 	private HashMap<Double,Activity> activityMap;
 	
 		public CollaboratorsActivities()
 		{
-			authorlist = new ArrayList<String>();
+			authorMap = new HashMap<String,String>();
 			activityMap = new HashMap<Double,Activity>();
 		}
-		public void addAuthor(String author)
-		{
-			authorlist.add(author);
-		}
-		public int getAuthorCount()
-		{
-			return authorlist.size();
-		}
-		public ArrayList<String> getAuthorList()
-		{
-			return authorlist;
-		}
+	
 		public void updateActivity(Double date,int addition,int deletion, int commits)
 		{
 			Activity activity=activityMap.get(date);
@@ -34,8 +23,19 @@ public class CollaboratorsActivities {
 			else
 				activity.update(addition,deletion,commits);
 		}
+		public void createAuthorMap(String author,String url)
+		{	
+			authorMap.put(author,url);	
+		}
+		
+		public HashMap<String,String> getAuthorMap()
+		{
+			return authorMap;
+		}
 		public HashMap<Double,Activity> getActivities()
 		{
 			return activityMap;
 		}
+		
+		
 }	
