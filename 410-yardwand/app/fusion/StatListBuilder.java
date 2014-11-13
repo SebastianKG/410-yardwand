@@ -61,7 +61,7 @@ public class StatListBuilder {
 		List<Double> collaboration = getCollaboration();
 		List<Double> velocities = getVelocities(bloat, commits, collaboration);
 		for (int i=0; i<velocities.size(); i++) {
-			stats.add(new Stat(bloat, velocities.get(0), collaboration.get(i)));
+			stats.add(new Stat(bloat, velocities.get(i), collaboration.get(i)));
 		}
 	}
 	
@@ -76,9 +76,9 @@ public class StatListBuilder {
 	private List<Double> getVelocities(double bloat, int commits,
 			List<Double> collaboration) {
 		List<Double> velocities = new ArrayList<Double>();
-		double vbase = bloat/commits;
-		for (double c : collaboration) {
-			velocities.add(vbase + c);
+		double vbase = bloat/(1+commits);
+		for (int i=0; i<weeklyCommits.size(); i++) {
+			velocities.add(vbase + collaboration.get(i));
 		}
 		return velocities;
 	}
@@ -109,19 +109,16 @@ public class StatListBuilder {
 	 */
 	private List<Double> getCollaboration() {
 		List<Double> collaboration = new ArrayList<Double>();
-		List<Double> wc = new ArrayList<Double>();
-		
-		for (int c : weeklyCommits)
-			wc.add((double) c);
 		
 		for (int i = 0; i < weeklyCommits.size(); i++) {
 			double cdev = 0;
-			for (int j = i-1; j > -1 ; j--) {
-				cdev += wc.get(j)*DECAY;
-				wc.remove(j);
-				wc.add(j, wc.get(j)*DECAY);
+			int counter = 1;
+			for (int j = i; j > -1 ; j--) {
+				cdev += weeklyCommits.get(j)*Math.pow(DECAY, counter);
+				counter++;
 			}
-			collaboration.add(wc.get(i) + 4*cdev);
+			//System.out.println("c: " + weeklyCommits.get(i) + " dev: " + cdev);
+			collaboration.add(cdev);
 		}
 		
 		return collaboration;
