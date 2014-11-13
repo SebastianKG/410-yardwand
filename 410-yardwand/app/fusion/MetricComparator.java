@@ -34,7 +34,7 @@ public class MetricComparator {
 	 * @param repo2
 	 * 		A <code>Repository</code> to be compared against repo1.
 	 */
-	private MetricComparator(Repository repo1, Repository repo2) {
+	public MetricComparator(Repository repo1, Repository repo2) {
 		this.repo1 = repo1;
 		this.repo2 = repo2;
 		generateStats();

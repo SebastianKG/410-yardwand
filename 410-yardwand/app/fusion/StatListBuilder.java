@@ -116,8 +116,9 @@ public class StatListBuilder {
 		
 		for (int i = 0; i < weeklyCommits.size(); i++) {
 			double cdev = 0;
-			for (int j = i-1; i > -1 ; i--) {
+			for (int j = i-1; j > -1 ; j--) {
 				cdev += wc.get(j)*DECAY;
+				wc.remove(j);
 				wc.add(j, wc.get(j)*DECAY);
 			}
 			collaboration.add(wc.get(i) + 4*cdev);
