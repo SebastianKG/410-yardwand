@@ -41,8 +41,10 @@ public class MockCommitMetricPairingModule {
     	Stat testStat3 = new Stat();
     	Stat testStat4 = new Stat();
     	
-    	testStat1.weight = testStat2.weight = 5.0;
-    	testStat3.weight = testStat4.weight = 0.001;
+    	testStat1.weight = 30.;
+    	testStat2.weight = 599.;
+    	testStat3.weight = 600.;
+    	testStat4.weight = 10.;
     	
     	testStat1.stepSpeed = 0.2;
     	testStat2.stepSpeed = 0.3;
@@ -52,7 +54,7 @@ public class MockCommitMetricPairingModule {
     	List<Stat> statList1 = new LinkedList<Stat>();
     	statList1.addAll( 
 			Arrays.asList(
-				new Stat[] { testStat1, testStat2, testStat3, testStat1 }
+				new Stat[] { testStat1, testStat2, testStat3, testStat4 }
 			)  
 		);
     	
@@ -65,19 +67,20 @@ public class MockCommitMetricPairingModule {
     	Stat testStat3 = new Stat();
     	Stat testStat4 = new Stat();
     	
-    	testStat1.weight = testStat2.weight = 5.0;
-    	testStat3.weight = testStat4.weight = 0.001;
+    	testStat1.weight = 10.;
+    	testStat2.weight = 15.;
+    	testStat3.weight = 600.0;
+    	testStat4.weight = 10.;
     	
     	testStat1.stepSpeed = 0.2;
     	testStat2.stepSpeed = 0.3;
     	testStat3.stepSpeed = 0.45;
     	testStat4.stepSpeed = 0.6;
 		
-		
     	List<Stat> statList2 = new LinkedList<Stat>();
     	statList2.addAll( 
 			Arrays.asList(
-				new Stat[] { testStat2, testStat4, testStat1, testStat2 }
+				new Stat[] { testStat1, testStat2, testStat3, testStat4 }
 			)
 		);
 		

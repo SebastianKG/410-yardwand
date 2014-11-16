@@ -1,4 +1,4 @@
-@(firstName: String, secondName:String, firstListWeights: List[Double], secondListWeights:List[Double], firstListSpeeds: List[Double], secondListSpeeds: List[Double])
+@(firstName: String, secondName:String, firstListWeights: List[Integer], secondListWeights: List[Integer], firstListSpeeds: List[Double], secondListSpeeds: List[Double])
 
 <style>
 	html {
@@ -59,12 +59,28 @@
 		background-image:url("assets/images/redrunnerstill.png") !important;
 	}
 	
+	#first .fat {
+		background-image:url("assets/images/redrunner-fat.gif") !important;
+	}
+	
+	#first .extrafat {
+		background-image:url("assets/images/redrunner-extrafat.gif") !important;
+	}
+	
 	#second .character {
 		background-image:url("assets/images/bluerunner.gif");
 	}
 	
 	#second .still {
 		background-image:url("assets/images/bluerunnerstill.png") !important;
+	}
+	
+	#second .fat {
+		background-image:url("assets/images/bluerunner-fat.gif") !important;
+	}
+	
+	#second .extrafat {
+		background-image:url("assets/images/bluerunner-extrafat.gif") !important;
 	}
 	
 	.distance-marker {
@@ -121,7 +137,7 @@
 	
 	const scaleFactor = 20;
 	const meterIncrement = 10;
-	const framesPerWeek = 100;
+	const framesPerWeek = 200;
 	
 	var firstPosition = 0;
 	var secondPosition = 0;
@@ -132,13 +148,9 @@
 	var firstListSpeeds = @Html(firstListSpeeds.toString());
 	var secondListSpeeds = @Html(secondListSpeeds.toString());
 	
-	console.log("ListWeights length: " + firstListWeights.length);
-	
 	var frameCount = 0;
 	function loop() {
 		if ((frameCount / framesPerWeek) < firstListWeights.length) {
-			console.log("Frame Count: " + frameCount);
-		
 			requestAnimFrame(loop);
 			updateFirstRepo(frameCount);
 			updateSecondRepo(frameCount);
@@ -170,7 +182,6 @@
 	function updateSecondRepoMarkers() {
 		$markers = $('#second .markers');
 		$markers.html('');
-		console.log("new position: " + secondPosition);
 		for(var i = secondPosition - 100; i < secondPosition + 700; i+=1) { 
 			if(i % (scaleFactor * meterIncrement) == 0) {
 				$markers.append('<div class="distance-marker" style="left: ' + Math.floor(i - secondPosition) + '" >' + i/scaleFactor + 'm</div>');
@@ -187,11 +198,22 @@
 	}
 	
 	function updateHalfWindow( $window, weights, speeds, frameNum ) {
-		if (window.frameCount % framesPerWeek == 0) {
-			// change weight appearance
-		}
-		
 		currIndex = Math.floor(window.frameCount / framesPerWeek);
+		
+		if (window.frameCount % framesPerWeek == 0) {
+			var weightState = weights[currIndex];
+
+            console.log(weightState);
+            console.log($window.attr('id'));
+
+            if (weightState == 0) {
+                $window.removeClass('.fat .extrafat');
+            } else if (weightState == 1) {
+                $window.removeClass('.extrafat').addClass('.fat');
+            } else if (weightState == 2) {
+                $window.removeClass('.fat').addClass('.extrafat');
+            }
+		}
 		
 		if ($window.attr('id') == "first") {
 			firstPosition += speeds[currIndex] * scaleFactor;
