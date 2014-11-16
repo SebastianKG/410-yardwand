@@ -10,6 +10,8 @@
 		height: 800px;
 		width: 800px;
 		margin: 0 auto;
+        background-color:#0f0;
+        z-index: -999;
 	}
 
 	.half-window {
@@ -18,6 +20,7 @@
 		width: 600px;
 		margin-left:100px;
 		position:relative;
+        
 	}
 	
 	.half-window h1 {
@@ -36,7 +39,8 @@
 		margin-left: -120px;
 		width: 240px;
 		height: 300px;
-		z-index:100;
+        position: relative;
+		z-index:10000;
 		background-repeat:no-repeat;
 		background-position: bottom;
 		background-size: 400px 400px;
@@ -83,6 +87,17 @@
 		background-image:url("assets/images/bluerunner-extrafat.gif") !important;
 	}
 	
+    .track {
+        height: 90px;
+        width: 800px;
+        margin: 0 auto;
+        background-color: #fc0;
+        z-index:0;
+        left: -100px;
+        top: 260px;
+        position:absolute;
+    }
+
 	.distance-marker {
 		border-left: 5px solid gray;
 		height: 10px;
@@ -91,11 +106,16 @@
 		padding-left: 15px;
 		position: absolute;
 		top: 250px;
-		z-index:-999;
+		z-index:2;
 	}
+
+    .title {
+        text-align: center;
+    }
 </style>
 
 @main("410 Project") {
+    <div class="title"><h1>Team Yardwand's CODE RACE!</h1></div>
 	<div id="wrapper">
 		<div id="first" class="half-window">
 	    	<h1>@firstName</h1>
@@ -103,20 +123,24 @@
 	    		<div class="sprite"></div>
 	    		<div class="message"></div>
 	    	</div>
+            <div class="track"></div>
 	    	<div class="markers"></div>
 	    </div>
 	    
 	    <div class="separator"></div>
 	    
 	    <div id="second" class="half-window">
-	    	<h1>@secondName</h1>
+            <h1>@secondName</h1>
 	    	<div class="character">
 		    	<div class="sprite"></div>
 		    	<div class="message"></div>
 	    	</div>
+            <div class="track"></div>
 	    	<div class="markers"></div>
 	    </div>
 	</div>
+    <br/>
+    <div class="title"><button type="button" onClick="history.go(0)">Restart</button></div>
 }
 
 <script>
@@ -157,9 +181,9 @@
 			updateMarkers();
 			frameCount++;
 		} else {
-			$('#first .character').toggleClass('still');
+			$('#first .character').removeClass('extrafat fat').addClass('still');
 			$('#first .character .message').html(firstPosition/scaleFactor + 'm!');
-			$('#second .character').toggleClass('still');
+			$('#second .character').removeClass('extrafat fat').addClass('still');
 			$('#second .character .message').html(secondPosition/scaleFactor + "m!");
 		}
 	}
@@ -207,14 +231,17 @@
             console.log($window.attr('id'));
 
             if (weightState == 0) {
-                $window.removeClass('.fat .extrafat');
+                $window.children('.character').removeClass('fat extrafat');
             } else if (weightState == 1) {
-                $window.removeClass('.extrafat').addClass('.fat');
+                $window.children('.character').removeClass('extrafat').addClass('fat');
             } else if (weightState == 2) {
-                $window.removeClass('.fat').addClass('.extrafat');
+                $window.children('.character').removeClass('fat').addClass('extrafat');
             }
+
+            console.log($window.children('.character').attr("class"));
 		}
 		
+        console.log(speeds[currIndex]);
 		if ($window.attr('id') == "first") {
 			firstPosition += speeds[currIndex] * scaleFactor;
 		} else if ($window.attr('id') == "second"){

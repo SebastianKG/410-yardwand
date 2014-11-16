@@ -42,9 +42,9 @@ public class MockCommitMetricPairingModule {
     	Stat testStat4 = new Stat();
     	
     	testStat1.weight = 30.;
-    	testStat2.weight = 599.;
-    	testStat3.weight = 600.;
-    	testStat4.weight = 10.;
+    	testStat2.weight = 100.;
+    	testStat3.weight = 40.;
+    	testStat4.weight = 33.;
     	
     	testStat1.stepSpeed = 0.2;
     	testStat2.stepSpeed = 0.3;
@@ -69,13 +69,13 @@ public class MockCommitMetricPairingModule {
     	
     	testStat1.weight = 10.;
     	testStat2.weight = 15.;
-    	testStat3.weight = 600.0;
-    	testStat4.weight = 10.;
+    	testStat3.weight = 150.0;
+    	testStat4.weight = 120.;
     	
-    	testStat1.stepSpeed = 0.2;
-    	testStat2.stepSpeed = 0.3;
-    	testStat3.stepSpeed = 0.45;
-    	testStat4.stepSpeed = 0.6;
+    	testStat1.stepSpeed = 0.1;
+    	testStat2.stepSpeed = 0.73333;
+    	testStat3.stepSpeed = 0.8;
+    	testStat4.stepSpeed = 0.15;
 		
     	List<Stat> statList2 = new LinkedList<Stat>();
     	statList2.addAll( 

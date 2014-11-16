@@ -44,8 +44,8 @@ public class Application extends Controller {
     	return ok( 
     			index.render(
     				repopath1, repopath2, 								// paths
-    				r1weightStates, r2weightStates,		// weights
-					getSpeeds(r1StatList), getSpeeds(r2StatList)		// step speeds
+    				r1weightStates, r2weightStates,						// weights
+					getRoundedSpeeds(r1StatList), getRoundedSpeeds(r2StatList)		// step speeds
 				) 
     		);
     }
@@ -53,8 +53,8 @@ public class Application extends Controller {
     public static List<Integer> statify(List<Double> weights, double mean, double stdDev) {
     	List<Integer> stateList = new LinkedList<Integer>();
     	
-    	double stateOneLine = mean + stdDev;
-		double stateTwoLine = mean + stdDev * 2;
+    	double stateOneLine = stdDev;
+		double stateTwoLine = mean + stdDev;
 		
     	for(Double weight : weights) {
     		if (weight.doubleValue() < stateOneLine) {
@@ -81,6 +81,7 @@ public class Application extends Controller {
     public static List<Double> getWeights( List<Stat> statList ) {
     	List<Double> weights = new LinkedList<Double>();
     	
+    	
     	// update for int values
     	
     	for (Stat stat: statList) {
@@ -90,11 +91,13 @@ public class Application extends Controller {
     	return weights;
     }
     
-    public static List<Double> getSpeeds( List<Stat> statList ) {
+    public static List<Double> getRoundedSpeeds( List<Stat> statList ) {
     	List<Double> speeds = new LinkedList<Double>();
     	
     	for (Stat stat: statList) {
-    		speeds.add( stat.stepSpeed );
+    		Double speed = stat.stepSpeed;
+    		Double roundedspeed = new Double((double) Math.round(speed * 10) / 10);
+    		speeds.add( roundedspeed );
     	}
     	
     	return speeds;
