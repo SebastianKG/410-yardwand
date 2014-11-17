@@ -20,7 +20,7 @@ public class StatListBuilder {
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
 	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
-	private static final double DECAY = 0.4;
+	private static final double DECAY = 0.5;
 	
 	private List<Stat> stats = new ArrayList<Stat>();
 	private SimianOutputParser parser = SimianOutputParser.getInstance();
@@ -76,7 +76,7 @@ public class StatListBuilder {
 	 * A helper routine that calculates a velocity given code bloat,
 	 * total commit count, and calculated collaboration measurement.
 	 * FORMULA IS:
-	 * commits / (1 + bloat)
+	 * commits / (1 + bloat) + collaboration_metric
 	 * @param bloat
 	 * @param commits
 	 * @param collaboration
@@ -107,7 +107,8 @@ public class StatListBuilder {
 	/**
 	 * Calculate a collaboration measurement based on how recently
 	 * a repository has been committed to and how many commits were performed.
-	 * Older values "decay" over time by a value of DECAY.
+	 * Older values "decay" over time by a value of DECAY. Essentially we are
+	 * looking at the most recent commit count + deviation.
 	 * @return collaborators
 	 * 		An <code>ArrayList</code> of <code>Double</code> containing the
 	 * 		calculated collaboration measurements. Has size of number of weeks.
