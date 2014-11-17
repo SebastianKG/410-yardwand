@@ -42,13 +42,23 @@ public class MetricComparatorTest {
 		List<Stat> stat2 = mc.getRepo2StatList();
 		
 		System.out.println("**JUNIT**");
+		double vavg1 = 0;
 		for (Stat s : stat1) {
 			s.print();
+			vavg1 += s.getStepSpeed();
 		}
+		vavg1 /= stat1.size();
 		
+		double vavg2 = 0;
 		System.out.println("**SPRING**");
 		for (Stat s : stat2) {
 			s.print();
+			vavg2 += s.getStepSpeed();
 		}
+		vavg2 /= stat2.size();
+		
+		System.out.println("vavg JUNIT: " + vavg1);
+		System.out.println("vavg SPRING: " + vavg2);
+		
 	}
 }
