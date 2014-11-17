@@ -25,12 +25,6 @@ public class StatListBuilder {
 	private List<Stat> stats = new ArrayList<Stat>();
 	private SimianOutputParser parser = SimianOutputParser.getInstance();
 	private List<Integer> weeklyCommits;
-	/*
-	 * We no longer wish to use the number of contributing authors as we
-	 * are more interested in comparing commit frequency. Keeping this in
-	 * as legacy or in case we want to use it in the future.
-	 */
-	private List<String> authors;
 	
 	/**
 	 * Calculates <code>Stat</code>s from the outputs of analysis tools.
@@ -39,14 +33,13 @@ public class StatListBuilder {
 	 * @param weeklyCommits
 	 * 		A <code>List</code> containing the amount of commits per week.
 	 */
-	public StatListBuilder(String simianOutput, List<Integer> weeklyCommits, List<String> authors) {
+	public StatListBuilder(String simianOutput, List<Integer> weeklyCommits) {
 		try {
 			parser.parse(simianOutput);
 		} catch (UnexpectedSimianContentException e) {
 			System.err.println("In StatBuilder: " + e.getMessage());
 		}
 		this.weeklyCommits = weeklyCommits;
-		this.authors = authors;
 		build();
 	}
 
@@ -76,7 +69,7 @@ public class StatListBuilder {
 	 * A helper routine that calculates a velocity given code bloat,
 	 * total commit count, and calculated collaboration measurement.
 	 * FORMULA IS:
-	 * commits / (1 + bloat) + collaboration_metric
+	 * total_commits / (1 + bloat_metric_value) + collaboration_metric_value
 	 * @param bloat
 	 * @param commits
 	 * @param collaboration
