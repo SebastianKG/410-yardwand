@@ -6,16 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import models.Stat;
+import fusion.InvalidRepositoryURLException;
 import fusion.MetricComparator;
 import fusion.MockCommitMetricPairingModule;
+import fusion.Repository;
 import play.*;
 import play.mvc.*;
 import views.html.*;
+
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import org.apache.commons.math3.stat.StatUtils;
 
 public class Application extends Controller {
-	public static MockCommitMetricPairingModule pairModule;
+	public static MetricComparator pairModule;
 	
     public static Result index() {
     	String r1name = "JUnit";
@@ -24,7 +27,19 @@ public class Application extends Controller {
     	/*pairingModule = CommitMetricPairingModule.getInstance();*/
     	
     	// mock object
-    	pairModule = MockCommitMetricPairingModule.getInstance();
+    	/*pairModule = MockCommitMetricPairingModule.getInstance();*/
+    	
+    	Repository r1;
+    	Repository r2;
+    	
+    	try {
+    		r1 = new Repository("https://github.com/junit-team/junit");
+    		r2 = new Repository("https://github.com/spring-projects/spring-framework");
+    	} catch (InvalidRepositoryURLException e) {
+    		return ok("<h1>Invalid URLs</h1>");
+    	}
+    	
+    	pairModule = new MetricComparator(r1,r2);
     	
     	List<Stat> r1StatList = pairModule.getRepo1StatList();
     	List<Stat> r2StatList = pairModule.getRepo2StatList();

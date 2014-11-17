@@ -308,13 +308,6 @@
             var currentFanCount = $window.children('.fanbox').children('.fan').length;
             var deltaFans = collabs[currIndex] - currentFanCount;
 
-            console.log($window);
-            console.log($window.children('.fanbox'));
-            console.log($window.children('.fanbox').children('.fan'));
-            console.log($window.children('.fanbox').children('.fan').length);
-            console.log(currentFanCount);
-            console.log(collabs)
-            console.log(deltaFans);
             if (deltaFans > 0) {
                 addFans(deltaFans, $window.children('.fanbox'));
             } else if (deltaFans < 0) {
