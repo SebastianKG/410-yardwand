@@ -1,4 +1,9 @@
-@(firstName: String, secondName:String, firstListWeights: List[Integer], secondListWeights: List[Integer], firstListSpeeds: List[Double], secondListSpeeds: List[Double])
+@(  
+    firstName: String, secondName:String, 
+    firstListWeights: List[Integer], secondListWeights: List[Integer], 
+    firstListSpeeds: List[Double], secondListSpeeds: List[Double], 
+    firstListCollabs: List[Integer], secondListCollabs: List[Integer]
+)
 
 <style>
 	html {
@@ -27,6 +32,13 @@
 		margin-top: 30px;
 		margin-bottom: -30px;
 	}
+
+    .half-window h2 {
+        position:absolute;
+        text-align:right;
+        right:15px;
+        top:20px;
+    }
 	
 	.separator {
 		height: 1px;
@@ -60,8 +72,16 @@
 	}
 	
 	#first .still {
-		background-image:url("assets/images/redrunnerstill.png") !important;
+		background-image:url("assets/images/redrunner-still.png") !important;
 	}
+
+    #first .fat.still {
+        background-image:url("assets/images/redrunner-fat-still.png") !important;
+    }
+
+    #first .extrafat.still {
+        background-image:url("assets/images/redrunner-extrafat-still.png") !important;
+    }
 	
 	#first .fat {
 		background-image:url("assets/images/redrunner-fat.gif") !important;
@@ -76,8 +96,16 @@
 	}
 	
 	#second .still {
-		background-image:url("assets/images/bluerunnerstill.png") !important;
+		background-image:url("assets/images/bluerunner-still.png") !important;
 	}
+
+    #second .fat.still {
+        background-image:url("assets/images/bluerunner-fat-still.png") !important;
+    }
+
+    #second .extrafat.still {
+        background-image:url("assets/images/bluerunner-extrafat-still.png") !important;
+    }
 	
 	#second .fat {
 		background-image:url("assets/images/bluerunner-fat.gif") !important;
@@ -86,6 +114,20 @@
 	#second .extrafat {
 		background-image:url("assets/images/bluerunner-extrafat.gif") !important;
 	}
+
+    .fanbox {
+        width: 384px;
+        height: 128px;
+        position: absolute;
+        top: 100px;
+        right: 15px;
+    }
+
+    .fan {
+        height: 64px;
+        width: 32px;
+        background-image:url("assets/images/fan.gif");
+    }
 	
     .track {
         height: 90px;
@@ -119,6 +161,10 @@
 	<div id="wrapper">
 		<div id="first" class="half-window">
 	    	<h1>@firstName</h1>
+            <h2><div class="weekcount">Week 0</div></h2>
+            <div class="fanbox">
+                <div class="fan"></div>
+            </div>
 	    	<div class="character">
 	    		<div class="sprite"></div>
 	    		<div class="message"></div>
@@ -131,6 +177,10 @@
 	    
 	    <div id="second" class="half-window">
             <h1>@secondName</h1>
+            <h2><div class="weekcount">Week 0</div></h2>
+            <div class="fanbox">
+                <div class="fan"></div>
+            </div>
 	    	<div class="character">
 		    	<div class="sprite"></div>
 		    	<div class="message"></div>
@@ -181,9 +231,9 @@
 			updateMarkers();
 			frameCount++;
 		} else {
-			$('#first .character').removeClass('extrafat fat').addClass('still');
+			$('#first .character').addClass('still');
 			$('#first .character .message').html(firstPosition/scaleFactor + 'm!');
-			$('#second .character').removeClass('extrafat fat').addClass('still');
+			$('#second .character').addClass('still');
 			$('#second .character .message').html(secondPosition/scaleFactor + "m!");
 		}
 	}
@@ -225,10 +275,13 @@
 		currIndex = Math.floor(window.frameCount / framesPerWeek);
 		
 		if (window.frameCount % framesPerWeek == 0) {
-			var weightState = weights[currIndex];
+            // adjust week count
+            var weekCount = window.frameCount / framesPerWeek + 1;
+			$window.children('h2').children('.weekcount').html("Week " + weekCount)
+            console.log(weekCount);
 
-            console.log(weightState);
-            console.log($window.attr('id'));
+            // adjust weight
+            var weightState = weights[currIndex];
 
             if (weightState == 0) {
                 $window.children('.character').removeClass('fat extrafat');
@@ -237,11 +290,8 @@
             } else if (weightState == 2) {
                 $window.children('.character').removeClass('fat').addClass('extrafat');
             }
-
-            console.log($window.children('.character').attr("class"));
 		}
 		
-        console.log(speeds[currIndex]);
 		if ($window.attr('id') == "first") {
 			firstPosition += speeds[currIndex] * scaleFactor;
 		} else if ($window.attr('id') == "second"){

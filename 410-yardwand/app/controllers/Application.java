@@ -18,8 +18,8 @@ public class Application extends Controller {
 	public static MockCommitMetricPairingModule pairModule;
 	
     public static Result index() {
-    	String repopath1 = "repopath1.html";
-    	String repopath2 = "repopath2.html";
+    	String r1name = "JUnit";
+    	String r2name = "Spring Framework";
     	
     	/*pairingModule = CommitMetricPairingModule.getInstance();*/
     	
@@ -43,9 +43,10 @@ public class Application extends Controller {
     	
     	return ok( 
     			index.render(
-    				repopath1, repopath2, 								// paths
-    				r1weightStates, r2weightStates,						// weights
-					getRoundedSpeeds(r1StatList), getRoundedSpeeds(r2StatList)		// step speeds
+    				r1name, r2name, 															// paths
+    				r1weightStates, r2weightStates,												// weights
+					getRoundedSpeeds(r1StatList), getRoundedSpeeds(r2StatList),					// step speeds
+					getIntegerCollaborations(r1StatList), getIntegerCollaborations(r2StatList) 	// collaboration quantities
 				) 
     		);
     }
@@ -78,11 +79,19 @@ public class Application extends Controller {
     	return primDoubles;
     }
     
+    public static List<Integer> getIntegerCollaborations( List<Stat> statList ) {
+    	List<Integer> collabs = new LinkedList<Integer>();
+    	
+    	for (Stat stat: statList) {
+    		Double floorDoubleValue = new Double(Math.floor(stat.weight));
+    		collabs.add( floorDoubleValue.intValue() );
+    	}
+    	
+    	return collabs;
+    }
+    
     public static List<Double> getWeights( List<Stat> statList ) {
     	List<Double> weights = new LinkedList<Double>();
-    	
-    	
-    	// update for int values
     	
     	for (Stat stat: statList) {
     		weights.add( stat.weight );
