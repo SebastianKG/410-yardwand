@@ -49,4 +49,12 @@ public class Stat {
 	public Double getCollaboration() {
 		return collaboration;
 	}
+	
+	/**
+	 * Print out the stat fields to the console.
+	 */
+	public void print() {
+		System.out.println("weight: " + weight + ", speed: " + stepSpeed
+			+ ", collab: " + collaboration);
+	}
 }

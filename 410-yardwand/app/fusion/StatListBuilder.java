@@ -20,11 +20,17 @@ public class StatListBuilder {
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
 	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
-	private static final double DECAY = 0.25;
+	private static final double DECAY = 0.4;
 	
 	private List<Stat> stats = new ArrayList<Stat>();
 	private SimianOutputParser parser = SimianOutputParser.getInstance();
 	private List<Integer> weeklyCommits;
+	/*
+	 * We no longer wish to use the number of contributing authors as we
+	 * are more interested in comparing commit frequency. Keeping this in
+	 * as legacy or in case we want to use it in the future.
+	 */
+	private List<String> authors;
 	
 	/**
 	 * Calculates <code>Stat</code>s from the outputs of analysis tools.
@@ -33,16 +39,17 @@ public class StatListBuilder {
 	 * @param weeklyCommits
 	 * 		A <code>List</code> containing the amount of commits per week.
 	 */
-	public StatListBuilder(String simianOutput, List<Integer> weeklyCommits) {
+	public StatListBuilder(String simianOutput, List<Integer> weeklyCommits, List<String> authors) {
 		try {
 			parser.parse(simianOutput);
 		} catch (UnexpectedSimianContentException e) {
 			System.err.println("In StatBuilder: " + e.getMessage());
 		}
 		this.weeklyCommits = weeklyCommits;
+		this.authors = authors;
 		build();
 	}
-	
+
 	/**
 	 * Get the list of <code>Stat</code>.
 	 * @return
@@ -68,15 +75,17 @@ public class StatListBuilder {
 	/**
 	 * A helper routine that calculates a velocity given code bloat,
 	 * total commit count, and calculated collaboration measurement.
+	 * FORMULA IS:
+	 * commits / (1 + bloat)
 	 * @param bloat
 	 * @param commits
 	 * @param collaboration
-	 * @return
+	 * @return the weekly velocities.
 	 */
 	private List<Double> getVelocities(double bloat, int commits,
 			List<Double> collaboration) {
 		List<Double> velocities = new ArrayList<Double>();
-		double vbase = bloat/(1+commits);
+		double vbase = commits/(1+bloat);
 		for (int i=0; i<weeklyCommits.size(); i++) {
 			velocities.add(vbase + collaboration.get(i));
 		}
@@ -85,7 +94,7 @@ public class StatListBuilder {
 
 	/**
 	 * A helper method that gets the total number of commits made.
-	 * @return
+	 * @return the total number of commits.
 	 */
 	private int getTotalCommits() {
 		int commits = 0;
@@ -98,11 +107,7 @@ public class StatListBuilder {
 	/**
 	 * Calculate a collaboration measurement based on how recently
 	 * a repository has been committed to and how many commits were performed.
-	 * We calculate this by:
-	 * MOST_RECENT_COLLABORATION + 4*DEVIATION
-	 * TODO: test this. Formula subject to change depending on how much we
-	 * 	want collaboration to affect velocity.
-	 * TODO: may want to look at weekly line additions and deletions.
+	 * Older values "decay" over time by a value of DECAY.
 	 * @return collaborators
 	 * 		An <code>ArrayList</code> of <code>Double</code> containing the
 	 * 		calculated collaboration measurements. Has size of number of weeks.
@@ -117,7 +122,6 @@ public class StatListBuilder {
 				cdev += weeklyCommits.get(j)*Math.pow(DECAY, counter);
 				counter++;
 			}
-			//System.out.println("c: " + weeklyCommits.get(i) + " dev: " + cdev);
 			collaboration.add(cdev);
 		}
 		
@@ -126,7 +130,7 @@ public class StatListBuilder {
 
 	/**
 	 * Helper function that contains the definition of bloat.
-	 * @return
+	 * @return a value representing bloat.
 	 */
 	private double getBloat() {
 		return DUPL_WEIGHT * parser.getDuplicateLineCount() +

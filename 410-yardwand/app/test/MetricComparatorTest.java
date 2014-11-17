@@ -40,21 +40,15 @@ public class MetricComparatorTest {
 		MetricComparator mc = new MetricComparator(repo1, repo2);
 		List<Stat> stat1 = mc.getRepo1StatList();
 		List<Stat> stat2 = mc.getRepo2StatList();
-		double avg1 = 0;
-		double avg2 = 0;
+		
+		System.out.println("**JUNIT**");
 		for (Stat s : stat1) {
-			avg1 += s.getWeight();
-			//System.out.println("JUNIT W: " + s.getWeight());
+			s.print();
 		}
-		avg1 /= stat1.size();
+		
+		System.out.println("**SPRING**");
 		for (Stat s : stat2) {
-			//System.out.println(s.getWeight() + " " + s.getStepSpeed()
-			//		+ " " + s.getCollaboration());
-			avg2 += s.getWeight();
-			//System.out.println("SPRING W: " + s.getWeight());
+			s.print();
 		}
-		avg2 /= stat2.size();
-		//System.out.println("JUNIT AVG WEIGHT:  " + avg1);
-		//System.out.println("SPRING AVG WEIGHT: " + avg2);
 	}
 }

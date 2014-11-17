@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import models.Stat;
 import analysis.Activity;
+import analysis.CollaboratorsActivities;
 import analysis.MockCodeDuplicationDetector;
 import analysis.NewCollaboratorDetector;
 
@@ -28,7 +29,8 @@ public class MetricComparator {
 	
 	/**
 	 * Generate velocities and weights (bloat) given two repositories.
-	 * MetricComparator sends requests to the analysis Detectors and 
+	 * MetricComparator sends requests to the analysis Detectors and
+	 * fuses them into two <code>Stat</code> lists.
 	 * @param repo1
 	 * 		A <code>Repository</code> to be compared against repo2.
 	 * @param repo2
@@ -51,13 +53,22 @@ public class MetricComparator {
 		NewCollaboratorDetector ncd1 = new NewCollaboratorDetector(repo1.getContributorURL());
 		NewCollaboratorDetector ncd2 = new NewCollaboratorDetector(repo2.getContributorURL());
 		
-		HashMap<Double, Activity> map1 = ncd1.getAnalysis().getActivities();
-		HashMap<Double, Activity> map2 = ncd2.getAnalysis().getActivities();
+		CollaboratorsActivities analysis1 = ncd1.getAnalysis();
+		CollaboratorsActivities analysis2 = ncd2.getAnalysis();
+		
+		HashMap<Double, Activity> map1 = analysis1.getActivities();
+		HashMap<Double, Activity> map2 = analysis2.getActivities();
+		HashMap<String, String> authorMap1 = analysis1.getAuthorMap();
+		HashMap<String, String> authorMap2 = analysis2.getAuthorMap();
 	    Iterator<Entry<Double, Activity>> it1 = map1.entrySet().iterator();
 	    Iterator<Entry<Double, Activity>> it2 = map2.entrySet().iterator();
+	    Iterator<String> ait1 = authorMap1.keySet().iterator();
+	    Iterator<String> ait2 = authorMap2.keySet().iterator();
 	    
 	    List<Integer> weeklyCommits1 = new ArrayList<Integer>();
 	    List<Integer> weeklyCommits2 = new ArrayList<Integer>();
+	    List<String> authors1 = new ArrayList<String>();
+	    List<String> authors2 = new ArrayList<String>();
 	    
         while (it1.hasNext()) {
         	@SuppressWarnings("rawtypes")
@@ -73,6 +84,16 @@ public class MetricComparator {
         	weeklyCommits2.add(a.getCommits());
         }
         
+        while (ait1.hasNext()) {
+			String author = ait1.next();
+        	authors1.add(author);
+        }
+        
+        while (ait2.hasNext()) {
+        	String author = ait2.next();
+        	authors2.add(author);
+        }
+        
         // TODO: Ideally, we will pass the Repository objects to these classes to receive
         // the simian output. For now we will use hardcoded results.
         MockCodeDuplicationDetector mcdd1 = new MockCodeDuplicationDetector();
@@ -80,8 +101,8 @@ public class MetricComparator {
         // Do not need to parse anything with the mock objects.
         // SimianOutputParser parser = SimianOutputParser.getInstance();
   
-        StatListBuilder sb1 = new StatListBuilder(mcdd1.getDuplicationString(1), weeklyCommits1);
-        StatListBuilder sb2 = new StatListBuilder(mcdd2.getDuplicationString(2), weeklyCommits2);
+        StatListBuilder sb1 = new StatListBuilder(mcdd1.getDuplicationString(1), weeklyCommits1, authors1);
+        StatListBuilder sb2 = new StatListBuilder(mcdd2.getDuplicationString(2), weeklyCommits2, authors2);
         repo1StatList = sb1.getStats();
         repo2StatList = sb2.getStats();
 	}
