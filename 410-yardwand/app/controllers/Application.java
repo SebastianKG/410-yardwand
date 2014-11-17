@@ -83,7 +83,7 @@ public class Application extends Controller {
     	List<Integer> collabs = new LinkedList<Integer>();
     	
     	for (Stat stat: statList) {
-    		Double floorDoubleValue = new Double(Math.floor(stat.weight));
+    		Double floorDoubleValue = new Double(Math.floor(stat.collaboration));
     		collabs.add( floorDoubleValue.intValue() );
     	}
     	

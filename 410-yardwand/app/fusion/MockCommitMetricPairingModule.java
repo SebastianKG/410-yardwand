@@ -51,6 +51,11 @@ public class MockCommitMetricPairingModule {
     	testStat3.stepSpeed = 0.45;
     	testStat4.stepSpeed = 0.6;
     	
+    	testStat1.collaboration = 0.1;
+    	testStat2.collaboration = 10.;
+    	testStat3.collaboration = 5.;
+    	testStat4.collaboration = 13.;
+    	
     	List<Stat> statList1 = new LinkedList<Stat>();
     	statList1.addAll( 
 			Arrays.asList(
@@ -76,6 +81,11 @@ public class MockCommitMetricPairingModule {
     	testStat2.stepSpeed = 0.73333;
     	testStat3.stepSpeed = 0.8;
     	testStat4.stepSpeed = 0.15;
+    	
+    	testStat1.collaboration = 0.1;
+    	testStat2.collaboration = 10.;
+    	testStat3.collaboration = 5.;
+    	testStat4.collaboration = 13.;
 		
     	List<Stat> statList2 = new LinkedList<Stat>();
     	statList2.addAll( 

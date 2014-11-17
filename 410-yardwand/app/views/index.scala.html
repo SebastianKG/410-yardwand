@@ -123,10 +123,20 @@
         right: 15px;
     }
 
+    .fanbox h1 {
+        font-size: 70px;
+        margin: 0px;
+    }
+
     .fan {
+        float:left;
         height: 64px;
         width: 32px;
         background-image:url("assets/images/fan.gif");
+    }
+
+    .clear {
+        clear:both;
     }
 	
     .track {
@@ -162,9 +172,8 @@
 		<div id="first" class="half-window">
 	    	<h1>@firstName</h1>
             <h2><div class="weekcount">Week 0</div></h2>
-            <div class="fanbox">
-                <div class="fan"></div>
-            </div>
+            <div class="fanbox"></div>
+            <div class="clear"></div>
 	    	<div class="character">
 	    		<div class="sprite"></div>
 	    		<div class="message"></div>
@@ -178,9 +187,8 @@
 	    <div id="second" class="half-window">
             <h1>@secondName</h1>
             <h2><div class="weekcount">Week 0</div></h2>
-            <div class="fanbox">
-                <div class="fan"></div>
-            </div>
+            <div class="fanbox"></div>
+            <div class="clear"></div>
 	    	<div class="character">
 		    	<div class="sprite"></div>
 		    	<div class="message"></div>
@@ -221,7 +229,12 @@
 	
 	var firstListSpeeds = @Html(firstListSpeeds.toString());
 	var secondListSpeeds = @Html(secondListSpeeds.toString());
-	
+
+    var firstListCollabs = @Html(firstListCollabs.toString());
+    var secondListCollabs = @Html(secondListCollabs.toString());
+	console.log(firstListCollabs);
+    console.log(secondListCollabs);
+
 	var frameCount = 0;
 	function loop() {
 		if ((frameCount / framesPerWeek) < firstListWeights.length) {
@@ -231,10 +244,22 @@
 			updateMarkers();
 			frameCount++;
 		} else {
+            var r1final = firstPosition/scaleFactor;
+            var r2final = secondPosition/scaleFactor;
 			$('#first .character').addClass('still');
-			$('#first .character .message').html(firstPosition/scaleFactor + 'm!');
+			$('#first .character .message').html(r1final + 'm!');
 			$('#second .character').addClass('still');
-			$('#second .character .message').html(secondPosition/scaleFactor + "m!");
+			$('#second .character .message').html(r2final + "m!");
+            if (r1final > r2final) {
+                $('#first .fanbox').html('<h1>WINNER</h1>');
+                $('#second .fanbox').html('<h1>LOSER</h1>');
+            } else if (r1final < r2final) {
+                $('#first .fanbox').html('<h1>LOSER</h1>');
+                $('#second .fanbox').html('<h1>WINNER</h1>');
+            } else {
+                $('#first .fanbox').html('<h1>DRAW</h1>');
+                $('#second .fanbox').html('<h1>DRAW</h1>');
+            }
 		}
 	}
 	
@@ -264,21 +289,37 @@
 	}
 	
 	function updateFirstRepo( frameNum ) { 
-		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, frameNum);
+		updateHalfWindow($('#first'), firstListWeights, firstListSpeeds, firstListCollabs, frameNum);
 	} 
 	
 	function updateSecondRepo( frameNum ) { 
-		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, frameNum);
+		updateHalfWindow($('#second'), secondListWeights, secondListSpeeds, secondListCollabs, frameNum);
 	}
 	
-	function updateHalfWindow( $window, weights, speeds, frameNum ) {
+	function updateHalfWindow( $window, weights, speeds, collabs, frameNum ) {
 		currIndex = Math.floor(window.frameCount / framesPerWeek);
 		
 		if (window.frameCount % framesPerWeek == 0) {
             // adjust week count
             var weekCount = window.frameCount / framesPerWeek + 1;
 			$window.children('h2').children('.weekcount').html("Week " + weekCount)
-            console.log(weekCount);
+
+            // adjust collaborator count
+            var currentFanCount = $window.children('.fanbox').children('.fan').length;
+            var deltaFans = collabs[currIndex] - currentFanCount;
+
+            console.log($window);
+            console.log($window.children('.fanbox'));
+            console.log($window.children('.fanbox').children('.fan'));
+            console.log($window.children('.fanbox').children('.fan').length);
+            console.log(currentFanCount);
+            console.log(collabs)
+            console.log(deltaFans);
+            if (deltaFans > 0) {
+                addFans(deltaFans, $window.children('.fanbox'));
+            } else if (deltaFans < 0) {
+                removeFans((-1) * deltaFans, $window.children('.fanbox'));
+            }
 
             // adjust weight
             var weightState = weights[currIndex];
@@ -298,4 +339,16 @@
 			secondPosition += speeds[currIndex] * scaleFactor;
 		}
 	}
+
+    function addFans(n, fanbox) {
+        for(var i = 0; i < n; i += 1) {
+            fanbox.append('<div class="fan"></div>');
+        }
+    }
+
+    function removeFans(n, fanbox) {
+        for(var i = 0; i < n; i += 1) {
+            fanbox.children()[0].remove();
+        }
+    }
 </script>
