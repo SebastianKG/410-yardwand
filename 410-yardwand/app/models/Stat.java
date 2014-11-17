@@ -11,28 +11,14 @@ public class Stat {
 	 */
 	public Double weight;
 	public Double stepSpeed;
+	public Double collaboration;
 	
 	public Stat() {}
 	
-	public Stat(Double weight, Double stepSpeed) {
+	public Stat(Double weight, Double stepSpeed, Double collaboration) {
 		this.weight = weight;
 		this.stepSpeed = stepSpeed;
-	}
-	
-	/**
-	 * Set the weight.
-	 * @param weight
-	 */
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
-	
-	/**
-	 * Set the step speed.
-	 * @param stepSpeed
-	 */
-	public void setStepSpeed(Double stepSpeed) {
-		this.stepSpeed = stepSpeed;
+		this.collaboration = collaboration;
 	}
 	
 	/**
@@ -51,5 +37,16 @@ public class Stat {
 	 */
 	public Double getStepSpeed() {
 		return stepSpeed;
+	}
+	
+	/**
+	 * Get the collaboration metric. See <code>StatListBuilder</code>
+	 * for how this is calculated.
+	 * @return collaboration
+	 * 		A measurement of density of recent commit activity.
+	 * 
+	 */
+	public Double getCollaboration() {
+		return collaboration;
 	}
 }

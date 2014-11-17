@@ -29,7 +29,8 @@ public class NewCollaboratorDetector {
 				JSONObject jo= array.getJSONObject(i);
 				JSONObject authorObject = jo.getJSONObject("author");
 				String author= authorObject.getString("login");
-				collaborators_activities.addAuthor(author);
+				String avatar=authorObject.getString("avatar_url");
+				collaborators_activities.createAuthorMap(author, avatar);
 				
 				JSONArray weeksArray= jo.getJSONArray("weeks");
 				for(int j=0; j< weeksArray.length();j++)

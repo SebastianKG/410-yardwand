@@ -3,6 +3,7 @@ package analysis;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 public class CodeDuplicationDetector {
 
 public static void main(String[] args){
@@ -11,12 +12,13 @@ public static void main(String[] args){
 		String[] commands = new String[5];
 		commands[0] = "java";
 		commands[1] = " -jar";
-		commands[2] = " /Users/";
+		commands[2] = " 410-yardwand";
 		// THIS IS USING MY OWN DIRECTORY TO ACCESS SIMIAN
-		// WILL MODIFY ONCE PLAYFRAMEWORK IS WORKING
-		commands[3] = "ericlee"; //ERIC: to test change your the name here
+
+		commands[3] = "/lib"; //ERIC: to test change your the name here
 		commands[4] = "/simian-2.3.35.jar";
-		
+		//TEST COMMENT:
+		System.out.print("arrived at commands\n");
 		
 		String xmlFormatOutput = " -formatter=plain";
 		

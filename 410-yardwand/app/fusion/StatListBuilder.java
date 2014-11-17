@@ -18,7 +18,7 @@ public class StatListBuilder {
 	/*
 	 * DECAY determines how quickly we "forget" about older commit information.
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
-	 * A DECAY of 0 corresponds to looking at all commits so far.
+	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
 	private static final double DECAY = 0.25;
 	
@@ -60,8 +60,8 @@ public class StatListBuilder {
 		int commits = getTotalCommits();
 		List<Double> collaboration = getCollaboration();
 		List<Double> velocities = getVelocities(bloat, commits, collaboration);
-		for (double v : velocities) {
-			stats.add(new Stat(bloat, v));
+		for (int i=0; i<velocities.size(); i++) {
+			stats.add(new Stat(bloat, velocities.get(i), collaboration.get(i)));
 		}
 	}
 	
@@ -76,9 +76,9 @@ public class StatListBuilder {
 	private List<Double> getVelocities(double bloat, int commits,
 			List<Double> collaboration) {
 		List<Double> velocities = new ArrayList<Double>();
-		double vbase = bloat/commits;
-		for (double c : collaboration) {
-			velocities.add(vbase + c);
+		double vbase = bloat/(1+commits);
+		for (int i=0; i<weeklyCommits.size(); i++) {
+			velocities.add(vbase + collaboration.get(i));
 		}
 		return velocities;
 	}
@@ -98,7 +98,10 @@ public class StatListBuilder {
 	/**
 	 * Calculate a collaboration measurement based on how recently
 	 * a repository has been committed to and how many commits were performed.
-	 * TODO: test this.
+	 * We calculate this by:
+	 * MOST_RECENT_COLLABORATION + 4*DEVIATION
+	 * TODO: test this. Formula subject to change depending on how much we
+	 * 	want collaboration to affect velocity.
 	 * TODO: may want to look at weekly line additions and deletions.
 	 * @return collaborators
 	 * 		An <code>ArrayList</code> of <code>Double</code> containing the
@@ -106,18 +109,16 @@ public class StatListBuilder {
 	 */
 	private List<Double> getCollaboration() {
 		List<Double> collaboration = new ArrayList<Double>();
-		List<Double> wc = new ArrayList<Double>();
-		
-		for (int c : weeklyCommits)
-			wc.add((double) c);
 		
 		for (int i = 0; i < weeklyCommits.size(); i++) {
 			double cdev = 0;
-			for (int j = i-1; i > -1 ; i--) {
-				cdev += wc.get(j)*DECAY;
-				wc.add(j, wc.get(j)*DECAY);
+			int counter = 1;
+			for (int j = i; j > -1 ; j--) {
+				cdev += weeklyCommits.get(j)*Math.pow(DECAY, counter);
+				counter++;
 			}
-			collaboration.add(wc.get(i) + 4*cdev);
+			//System.out.println("c: " + weeklyCommits.get(i) + " dev: " + cdev);
+			collaboration.add(cdev);
 		}
 		
 		return collaboration;
