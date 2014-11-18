@@ -15,6 +15,7 @@ public class CodeDuplicationDetector {
 	public CodeDuplicationDetector() {
 		repoMap = new HashMap<String, ArrayList<Double>>();
 		ArrayList<Double> repo1ListDates = new ArrayList<Double>();
+		ArrayList<Double> repo2ListDates = new ArrayList<Double>();
 		// REFERENCE DATES (JUnit Code Base): use these dates as a reference to
 		// corresponding weeks in fusion module
 		repo1ListDates.add((double) 1239584400);
@@ -37,6 +38,28 @@ public class CodeDuplicationDetector {
 		repo1ListDates.add((double) 1410397200);
 
 		repoMap.put(repo1, repo1ListDates);
+		
+
+		repo2ListDates.add((double) 1229648400);
+		repo2ListDates.add((double) 1249866000);
+		repo2ListDates.add((double) 1260925200);
+		repo2ListDates.add((double) 1266541200);
+		repo2ListDates.add((double) 1287536400);
+		repo2ListDates.add((double) 1313629200);
+		repo2ListDates.add((double) 1323738000);
+		repo2ListDates.add((double) 1341622800);
+		repo2ListDates.add((double) 1351990800);
+		repo2ListDates.add((double) 1358902800);
+		repo2ListDates.add((double) 1368666000);
+		repo2ListDates.add((double) 1377738000);
+		repo2ListDates.add((double) 1386723600);
+		repo2ListDates.add((double) 1392685200);
+		repo2ListDates.add((double) 1400547600);
+		repo2ListDates.add((double) 1405645200);
+		repo2ListDates.add((double) 1409792400);
+		repo2ListDates.add((double) 1415581200);
+		
+		repoMap.put(repo2, repo2ListDates);
 
 	}
 
@@ -112,14 +135,20 @@ public class CodeDuplicationDetector {
 			//System.out.println("******************************************");
 
 		}
-
+		//TEST PRINT OUT:
+		/*for(Object objname:hasmap.keySet()) {
+			   System.out.println(objname);
+			   System.out.println(hasmap.get(objname));
+			 }*/
 		return hasmap;
 	}
 
 	public static void main(String[] arg) {
-		CodeDuplicationDetector c = new CodeDuplicationDetector();
+		//Tester code:
+		
+		//CodeDuplicationDetector c = new CodeDuplicationDetector();
 
-		c.method1(1);
+		//c.method1(1);
 
 	}
 
