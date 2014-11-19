@@ -87,7 +87,7 @@ public class Application extends Controller {
      * @param n
      * 			The size to trim to, if the list is larger.
      */
-    public static void trim( List<?> list, int n ) {
+    private static void trim( List<?> list, int n ) {
     	while (list.size() > n) {
     		list.remove(list.size() - 1);
     	}
@@ -107,7 +107,7 @@ public class Application extends Controller {
      * @return
      * 		The list of weights in state form.
      */
-    public static List<Integer> statify(List<Double> weights, double mean, double stdDev) {
+    private static List<Integer> statify(List<Double> weights, double mean, double stdDev) {
     	List<Integer> stateList = new LinkedList<Integer>();
     	
     	double stateOneLine = mean;
@@ -133,7 +133,7 @@ public class Application extends Controller {
      * @return
      * 		A list of (primitive) <code>double</code>s
      */
-    public static double[] toPrimitive(Double[] objectDoubles) {
+    private static double[] toPrimitive(Double[] objectDoubles) {
     	double[] primDoubles = new double[objectDoubles.length];
     	for(int i = 0; i < objectDoubles.length; i++) {
     		primDoubles[i] = objectDoubles[i].doubleValue();
@@ -151,7 +151,7 @@ public class Application extends Controller {
      * @return
      * 		A list of collaboration information in <code>Integer</code> form
      */
-    public static List<Integer> getIntegerCollaborations( List<Stat> statList ) {
+    private static List<Integer> getIntegerCollaborations( List<Stat> statList ) {
     	List<Integer> collabs = new LinkedList<Integer>();
     	
     	for (Stat stat: statList) {
@@ -172,7 +172,7 @@ public class Application extends Controller {
      * 		The list of the weight parameters contained in the 
      * 		statList
      */
-    public static List<Double> getWeights( List<Stat> statList ) {
+    private static List<Double> getWeights( List<Stat> statList ) {
     	List<Double> weights = new LinkedList<Double>();
     	
     	for (Stat stat: statList) {
@@ -190,7 +190,7 @@ public class Application extends Controller {
      * @return
      * 		A list of normalized and rounded down speeds in <code>Double</code> form.
      */
-    public static List<Double> getNormalizedAndRoundedSpeeds( List<Stat> statList ) {
+    private static List<Double> getNormalizedAndRoundedSpeeds( List<Stat> statList ) {
     	List<Double> speeds = new LinkedList<Double>();
     	double normalization = 15;
     	
