@@ -59,6 +59,8 @@ public class MetricComparatorTest {
 		
 		System.out.println("vavg JUNIT: " + vavg1);
 		System.out.println("vavg SPRING: " + vavg2);
+		System.out.println("num weeks JUNIT: " + stat1.size());
+		System.out.println("num weeks SPRING: " + stat2.size());
 		
 	}
 }

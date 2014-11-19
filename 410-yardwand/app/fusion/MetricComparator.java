@@ -85,10 +85,10 @@ public class MetricComparator {
         // Do not need to parse anything with the mock objects.
         // SimianOutputParser parser = SimianOutputParser.getInstance();
   
-        StatListBuilder sb1 = new StatListBuilder(mcdd1.getDuplicationString(1), weeklyCommits1);
-        StatListBuilder sb2 = new StatListBuilder(mcdd2.getDuplicationString(2), weeklyCommits2);
-        repo1StatList = sb1.getStats();
-        repo2StatList = sb2.getStats();
+        StatListBuilder slb1 = new StatListBuilder(mcdd1.getDuplicationString(1), weeklyCommits1);
+        StatListBuilder slb2 = new StatListBuilder(mcdd2.getDuplicationString(2), weeklyCommits2);
+        repo1StatList = slb1.getStats();
+        repo2StatList = slb2.getStats();
 	}
 	
 	/**
