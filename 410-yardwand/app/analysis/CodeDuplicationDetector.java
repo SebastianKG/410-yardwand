@@ -38,7 +38,6 @@ public class CodeDuplicationDetector {
 		repo1ListDates.add((double) 1410397200);
 
 		repoMap.put(repo1, repo1ListDates);
-		
 
 		repo2ListDates.add((double) 1229648400);
 		repo2ListDates.add((double) 1249866000);
@@ -58,7 +57,7 @@ public class CodeDuplicationDetector {
 		repo2ListDates.add((double) 1405645200);
 		repo2ListDates.add((double) 1409792400);
 		repo2ListDates.add((double) 1415581200);
-		
+
 		repoMap.put(repo2, repo2ListDates);
 
 	}
@@ -72,25 +71,23 @@ public class CodeDuplicationDetector {
 		if (i == 1) {
 			repoName = repo1;
 
-		} else
+		} else if (i == 2) {
 			repoName = repo2;
-		
+		}
+
 		System.out.print("arrived at commands\n");
-		
+
 		commands[0] = "java";
 		commands[1] = " -jar";
 		commands[2] = " 410-yardwand";
 		commands[3] = "/lib";
 		commands[4] = "/simian-2.3.35.jar";
 		String xmlFormatOutput = " -formatter=plain ";
-		
-
 
 		System.out.print("PROCESS BUILDER: \n");
 
 		// THE PROCESS BUILDER:
-		
-		
+
 		for (int j = 0; j < 18; j++) {
 			String currDirectory = "\"410-yardwand/lib/code-bases/" + repoName
 					+ "/release" + j + "/";
@@ -128,24 +125,23 @@ public class CodeDuplicationDetector {
 			analysisList[j] = builder.toString();
 			ArrayList<Double> list = repoMap.get(repoName);
 
-			
 			hasmap.put(list.get(j), analysisList[j]);
 
-			//System.out.println(list.get(j) + "  " + analysisList[j]);
-			//System.out.println("******************************************");
+			// System.out.println(list.get(j) + "  " + analysisList[j]);
+			// System.out.println("******************************************");
 
 		}
-		//TEST PRINT OUT:
-		/*for(Object objname:hasmap.keySet()) {
-			   System.out.println(objname);
-			   System.out.println(hasmap.get(objname));
-			 }*/
+		// TEST PRINT OUT:
+		/*
+		 * for(Object objname:hasmap.keySet()) { System.out.println(objname);
+		 * System.out.println(hasmap.get(objname)); }
+		 */
 		return hasmap;
 	}
 
 	public static void main(String[] arg) {
-		//Tester code:
-		
+		// Tester code:
+
 		//CodeDuplicationDetector c = new CodeDuplicationDetector();
 
 		//c.method1(1);

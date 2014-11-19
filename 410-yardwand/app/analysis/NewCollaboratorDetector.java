@@ -2,7 +2,7 @@ package analysis;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import models.CollaboratorsActivities;
 
 
 public class NewCollaboratorDetector {

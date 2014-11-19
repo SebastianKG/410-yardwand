@@ -11,7 +11,7 @@ import org.junit.Before;
 
 import fusion.InvalidRepositoryURLException;
 import fusion.MetricComparator;
-import fusion.Repository;
+import models.Repository;
 
 public class MetricComparatorTest {
 	

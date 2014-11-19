@@ -1,4 +1,6 @@
-package fusion;
+package models;
+
+import fusion.InvalidRepositoryURLException;
 
 public class Repository {
 	

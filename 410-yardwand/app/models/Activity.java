@@ -1,4 +1,4 @@
-package analysis;
+package models;
 
 public class Activity {
 	

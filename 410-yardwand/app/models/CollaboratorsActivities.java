@@ -1,6 +1,8 @@
-package analysis;
+package models;
 
 import java.util.HashMap;
+
+import models.Activity;
 
 
 public class CollaboratorsActivities {

@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import models.Activity;
 import models.Stat;
-import analysis.Activity;
-import analysis.CollaboratorsActivities;
+import models.CollaboratorsActivities;
 import analysis.NewCollaboratorDetector;
 
 public class MockCommitMetricPairingModule {
@@ -46,10 +46,10 @@ public class MockCommitMetricPairingModule {
     	testStat3.weight = 40.;
     	testStat4.weight = 33.;
     	
-    	testStat1.stepSpeed = 0.2;
-    	testStat2.stepSpeed = 0.3;
-    	testStat3.stepSpeed = 0.45;
-    	testStat4.stepSpeed = 0.6;
+    	testStat1.stepSpeed = 5.;
+    	testStat2.stepSpeed = 3.;
+    	testStat3.stepSpeed = 2.;
+    	testStat4.stepSpeed = 7.;
     	
     	testStat1.collaboration = 0.1;
     	testStat2.collaboration = 10.;
@@ -59,7 +59,7 @@ public class MockCommitMetricPairingModule {
     	List<Stat> statList1 = new LinkedList<Stat>();
     	statList1.addAll( 
 			Arrays.asList(
-				new Stat[] { testStat1, testStat2, testStat3, testStat4 }
+				new Stat[] { testStat1, testStat2, testStat3, testStat4, testStat1, testStat2 }
 			)  
 		);
     	
@@ -77,10 +77,10 @@ public class MockCommitMetricPairingModule {
     	testStat3.weight = 150.0;
     	testStat4.weight = 120.;
     	
-    	testStat1.stepSpeed = 0.1;
-    	testStat2.stepSpeed = 0.73333;
-    	testStat3.stepSpeed = 0.8;
-    	testStat4.stepSpeed = 0.15;
+    	testStat1.stepSpeed = 4.;
+    	testStat2.stepSpeed = 5.;
+    	testStat3.stepSpeed = 6.58;
+    	testStat4.stepSpeed = 10.245;
     	
     	testStat1.collaboration = 0.1;
     	testStat2.collaboration = 10.;
