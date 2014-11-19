@@ -24,10 +24,11 @@ public class ProcessBuilderTest {
 
 		String finalCommand = "java -jar simian";
 
-		String currDirectory = "\"410-yardwand/lib/spring-beans/";
+		String currDirectory = "\"410-yardwand/lib/";
 		//String currDirectory = "\"";
 
-		String parseFileType = "**/*.java\"";
+		//String parseFileType = "**/*.java\"";
+		String parseFileType = "";
 
 		String cmd = commands[0] + commands[1] + commands[2] + commands[3]
 				+ commands[4] + xmlFormatOutput + currDirectory + parseFileType;
