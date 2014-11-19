@@ -1,52 +1,155 @@
 package analysis;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CodeDuplicationDetector {
 
-public static void main(String[] args){
+	private static final String repo1 = "JUnit";
+	private static final String repo2 = "Spring";
+	private HashMap<String, ArrayList<Double>> repoMap;
+
+	public CodeDuplicationDetector() {
+		repoMap = new HashMap<String, ArrayList<Double>>();
+		ArrayList<Double> repo1ListDates = new ArrayList<Double>();
+		ArrayList<Double> repo2ListDates = new ArrayList<Double>();
+		// REFERENCE DATES (JUnit Code Base): use these dates as a reference to
+		// corresponding weeks in fusion module
+		repo1ListDates.add((double) 1239584400);
+		repo1ListDates.add((double) 1248656400);
+		repo1ListDates.add((double) 1256605200);
+		repo1ListDates.add((double) 1255654800);
+		repo1ListDates.add((double) 1256864400);
+		repo1ListDates.add((double) 1260234000);
+		repo1ListDates.add((double) 1258351200);
+		repo1ListDates.add((double) 1239152400);
+		repo1ListDates.add((double) 1294016400);
+		repo1ListDates.add((double) 1309914000);
+		repo1ListDates.add((double) 1313110800);
+		repo1ListDates.add((double) 1313974800);
+		repo1ListDates.add((double) 1317258000);
+		repo1ListDates.add((double) 1350349200);
+		repo1ListDates.add((double) 1352854800);
+		repo1ListDates.add((double) 1406422800);
+		repo1ListDates.add((double) 1411520400);
+		repo1ListDates.add((double) 1410397200);
+
+		repoMap.put(repo1, repo1ListDates);
 		
-		//test comment
+
+		repo2ListDates.add((double) 1229648400);
+		repo2ListDates.add((double) 1249866000);
+		repo2ListDates.add((double) 1260925200);
+		repo2ListDates.add((double) 1266541200);
+		repo2ListDates.add((double) 1287536400);
+		repo2ListDates.add((double) 1313629200);
+		repo2ListDates.add((double) 1323738000);
+		repo2ListDates.add((double) 1341622800);
+		repo2ListDates.add((double) 1351990800);
+		repo2ListDates.add((double) 1358902800);
+		repo2ListDates.add((double) 1368666000);
+		repo2ListDates.add((double) 1377738000);
+		repo2ListDates.add((double) 1386723600);
+		repo2ListDates.add((double) 1392685200);
+		repo2ListDates.add((double) 1400547600);
+		repo2ListDates.add((double) 1405645200);
+		repo2ListDates.add((double) 1409792400);
+		repo2ListDates.add((double) 1415581200);
+		
+		repoMap.put(repo2, repo2ListDates);
+
+	}
+
+	public HashMap<Double, String> method1(int i) {
 		String[] commands = new String[5];
+		String repoName = "";
+		String[] analysisList = new String[18];
+		HashMap<Double, String> hasmap = new HashMap<Double, String>();
+
+		if (i == 1) {
+			repoName = repo1;
+
+		} else
+			repoName = repo2;
+		
+		System.out.print("arrived at commands\n");
+		
 		commands[0] = "java";
 		commands[1] = " -jar";
 		commands[2] = " 410-yardwand";
-		// THIS IS USING MY OWN DIRECTORY TO ACCESS SIMIAN
-
-		commands[3] = "/lib"; //ERIC: to test change your the name here
+		commands[3] = "/lib";
 		commands[4] = "/simian-2.3.35.jar";
-		//TEST COMMENT:
-		System.out.print("arrived at commands\n");
+		String xmlFormatOutput = " -formatter=plain ";
 		
-		String xmlFormatOutput = " -formatter=plain";
+
+
+		System.out.print("PROCESS BUILDER: \n");
+
+		// THE PROCESS BUILDER:
 		
-		String finalCommand = "java -jar simian";
 		
-		String curr_Directory = " \"*.java\"";
-		String cmd= commands[0] + commands[1] + commands[2] + commands[3] + commands[4] + xmlFormatOutput + curr_Directory;
-		try {
-			Process p = Runtime.getRuntime().exec(cmd);
-			InputStream is= p.getInputStream();
-			java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-			String val="";
-			if(s.hasNext())
-			{
-				val=s.next();
-			}else
-				val="";
+		for (int j = 0; j < 18; j++) {
+			String currDirectory = "\"410-yardwand/lib/code-bases/" + repoName
+					+ "/release" + j + "/";
+			String parseFileType = "**/*.java\"";
+
+			String cmd = commands[0] + commands[1] + commands[2] + commands[3]
+
+			+ commands[4] + xmlFormatOutput + currDirectory + parseFileType;
+
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+			Process b = null;
+
+			try {
+				b = pb.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					b.getInputStream()));
+
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					builder.append(line);
+					builder.append(System.getProperty("line.separator"));
+				}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			analysisList[j] = builder.toString();
+			ArrayList<Double> list = repoMap.get(repoName);
+
 			
-			System.out.print(val);
-			
+			hasmap.put(list.get(j), analysisList[j]);
 
+			//System.out.println(list.get(j) + "  " + analysisList[j]);
+			//System.out.println("******************************************");
 
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
+		//TEST PRINT OUT:
+		/*for(Object objname:hasmap.keySet()) {
+			   System.out.println(objname);
+			   System.out.println(hasmap.get(objname));
+			 }*/
+		return hasmap;
 	}
-	
+
+	public static void main(String[] arg) {
+		//Tester code:
+		
+		//CodeDuplicationDetector c = new CodeDuplicationDetector();
+
+		//c.method1(1);
+
+	}
+
 }
