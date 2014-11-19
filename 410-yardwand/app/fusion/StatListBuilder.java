@@ -20,7 +20,7 @@ public class StatListBuilder {
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
 	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
-	private static final double DECAY = 0.5;
+	private static final double DECAY = 0.23;
 	
 	private List<Stat> stats = new ArrayList<Stat>();
 	private SimianOutputParser parser = SimianOutputParser.getInstance();
