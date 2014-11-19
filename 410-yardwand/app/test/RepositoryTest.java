@@ -1,11 +1,11 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import models.Repository;
 
 import org.junit.Test;
 
 import fusion.InvalidRepositoryURLException;
-import fusion.Repository;
 
 public class RepositoryTest {
 	

@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import models.Activity;
+import models.Repository;
 import models.Stat;
-import analysis.Activity;
-import analysis.CollaboratorsActivities;
+import models.CollaboratorsActivities;
 import analysis.MockCodeDuplicationDetector;
 import analysis.NewCollaboratorDetector;
 

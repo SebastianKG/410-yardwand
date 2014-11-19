@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import models.Repository;
 import models.Stat;
 import fusion.InvalidRepositoryURLException;
 import fusion.MetricComparator;
 import fusion.MockCommitMetricPairingModule;
-import fusion.Repository;
 import play.*;
 import play.mvc.*;
 import views.html.*;
