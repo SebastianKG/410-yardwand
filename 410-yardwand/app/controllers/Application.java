@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
+
 import models.Repository;
 import models.Stat;
 import fusion.InvalidRepositoryURLException;
@@ -14,8 +17,7 @@ import play.*;
 import play.mvc.*;
 import views.html.*;
 
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
-import org.apache.commons.math3.stat.StatUtils;
+
 
 public class Application extends Controller {
 	
