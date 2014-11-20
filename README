@@ -1,3 +1,18 @@
-Yard Wand's project for CPSC 410 at UBC.
+We are Team Yardwand, and this is "Code Race," a UBC CPSC 410 project made in Fall 2014.
 
-A code 'race' designed to determine coding efficiency of a group by measuring speed versus code duplication.
+Component Descriptions:
+Play Framework/Metric Visualization Module: The Play Framework is a Java/Scala Web Framework that will serve HTML/CSS/JS content in the View that is generated in Java in the Controller with reference to the Model.
+Collaborator/Commit Detector: This analyzer sends a GET request to GitHub api to receive all weekly activities done by collaborators such as commits, additions and deletions in the repository.
+Simian-Code Duplication Detector: the similarity analyser we are implementing to go through java repositories checking for levels of code duplication
+Simian-Code Wrapper: wrapper for Simian so it can be used in our native application
+Internet: It’s a bridge between our code and GitHub API
+GitHub Repo: the web-hosting service to which we will be drawing our code to analyse from
+Code Bases: JUnit & Spring Framework: Java frameworks (for testing and web development respectively) with many commits over a long period of time, both available on GitHub.
+Commit Metric Pairing Module: reads from the detectors, then calculates velocity and weight.
+
+How to run our code:
+Download the Play framework at:  https://www.playframework.com/download
+The latest package including the Activator User Interface is ideal.  Follow the instructions at: https://www.playframework.com/documentation/2.3.x/Installing .  You can then download our source file and load it on the Activator through you local machine.  The activator itself will provide the options to run the code.  Or alternatively you can run the play framework from your Terminal and use the eclipse option: https://www.playframework.com/documentation/2.3.x/IDE .  You will also need to add the code-bases to our lib folder, we have included a package on drop-box:
+https://www.dropbox.com/s/ie5jt878nokapoe/code-bases.zip?dl=0.
+
+If any difficulty is experienced getting the project up and running, make sure that the files contained in 410-yardwand\410-yardwand\lib are included in your classpath.
