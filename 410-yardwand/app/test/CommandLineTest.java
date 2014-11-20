@@ -3,9 +3,11 @@ package test;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class CommandLineTest {
+import org.junit.Test;
 
-	public static void main(String[] args) {
+public class CommandLineTest {
+	@Test
+	public void test() {
 
 		String[] commands = new String[10];
 		commands[0] = "ls";
