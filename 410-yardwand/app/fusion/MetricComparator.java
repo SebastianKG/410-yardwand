@@ -18,7 +18,7 @@ import models.Activity;
 import models.Repository;
 import models.Stat;
 import models.CollaboratorsActivities;
-import analysis.MockCodeDuplicationDetector;
+import analysis.CodeDuplicationDetector;
 import analysis.NewCollaboratorDetector;
 
 public class MetricComparator {
@@ -64,6 +64,8 @@ public class MetricComparator {
 	    
 	    List<Integer> weeklyCommits1 = new ArrayList<Integer>();
 	    List<Integer> weeklyCommits2 = new ArrayList<Integer>();
+	    List<Double> commitWeeks1 = new ArrayList<Double>();
+	    List<Double> commitWeeks2 = new ArrayList<Double>();
 	    
         while (it1.hasNext()) {
         	@SuppressWarnings("rawtypes")
@@ -79,19 +81,47 @@ public class MetricComparator {
         	weeklyCommits2.add(a.getCommits());
         }
         
+        commitWeeks1.addAll(map1.keySet());
+        commitWeeks2.addAll(map2.keySet());
+        
         // TODO: Ideally, we will pass the Repository objects to these classes to receive
         // the simian output. For now we will use hardcoded results.
-        MockCodeDuplicationDetector mcdd1 = new MockCodeDuplicationDetector();
-        MockCodeDuplicationDetector mcdd2 = new MockCodeDuplicationDetector();
-        // Do not need to parse anything with the mock objects.
-        // SimianOutputParser parser = SimianOutputParser.getInstance();
+        //MockCodeDuplicationDetector mcdd1 = new MockCodeDuplicationDetector();
+        //MockCodeDuplicationDetector mcdd2 = new MockCodeDuplicationDetector();
+        CodeDuplicationDetector cdd = new CodeDuplicationDetector();
+        HashMap<Double, String> duplicationMap1 = cdd.getRepo1DuplicationAnalysis();
+        HashMap<Double, String> duplicationMap2 = cdd.getRepo2DuplicationAnalysis();
+        
+        List<String> duplicationStrings1 = buildDuplicationList(duplicationMap1, commitWeeks1);
+        List<String> duplicationStrings2 = buildDuplicationList(duplicationMap2, commitWeeks2);
   
-        StatListBuilder slb1 = new StatListBuilder(mcdd1.getDuplicationString(1), weeklyCommits1);
-        StatListBuilder slb2 = new StatListBuilder(mcdd2.getDuplicationString(2), weeklyCommits2);
+        StatListBuilder slb1 = new StatListBuilder(duplicationStrings1, weeklyCommits1);
+        StatListBuilder slb2 = new StatListBuilder(duplicationStrings2, weeklyCommits2);
         repo1StatList = slb1.getStats();
         repo2StatList = slb2.getStats();
 	}
 	
+	public List<String> buildDuplicationList(
+			HashMap<Double, String> duplicationMap, List<Double> commitWeeks) {
+		List<String> duplicationStrings = new ArrayList<String>();
+		double key;
+		for (double w : commitWeeks) {
+			if (duplicationMap.keySet().iterator().hasNext()) {
+				if ((key = duplicationMap.keySet().iterator().next()) < w) {
+					duplicationStrings.add(duplicationMap.get(key));
+					//System.out.println("key: " + key);
+					duplicationMap.remove(key);
+				} else {
+					duplicationStrings.add("");
+				}
+			}
+		}
+		//for (int i=0; i<commitWeeks.size(); i++ ) {
+		//	System.out.println(!duplicationStrings.get(i).equals("") + ", " + commitWeeks.get(i));
+		//}
+		return duplicationStrings;
+	}
+
 	/**
 	 * Get the list of <code>Stat</code> objects containing weights and
 	 * step sizes in weekly intervals corresponding to repository 1.

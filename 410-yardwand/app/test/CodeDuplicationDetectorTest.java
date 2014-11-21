@@ -15,10 +15,10 @@ public class CodeDuplicationDetectorTest {
 	@Test(expected=NullPointerException.class)
 	public void simianInvalidInputs() {
 		CodeDuplicationDetector cd = new CodeDuplicationDetector();
-		
-		cd.method1(0);
-		cd.method1(10);
-		cd.method1(100);
+
+		//cd.method1(0);
+		//cd.method1(10);
+		//cd.method1(100);
 	}
 	
 	public void simianRunCheck() {

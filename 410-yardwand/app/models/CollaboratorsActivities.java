@@ -1,19 +1,19 @@
 package models;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import models.Activity;
 
 
 public class CollaboratorsActivities {
 
-	private HashMap<String,String> authorMap;
-	private HashMap<Double,Activity> activityMap;
+	private LinkedHashMap<String,String> authorMap;
+	private LinkedHashMap<Double,Activity> activityMap;
 	
 		public CollaboratorsActivities()
 		{
-			authorMap = new HashMap<String,String>();
-			activityMap = new HashMap<Double,Activity>();
+			authorMap = new LinkedHashMap<String,String>();
+			activityMap = new LinkedHashMap<Double,Activity>();
 		}
 	
 		public void updateActivity(Double date,int addition,int deletion, int commits)
@@ -30,11 +30,11 @@ public class CollaboratorsActivities {
 			authorMap.put(author,url);	
 		}
 		
-		public HashMap<String,String> getAuthorMap()
+		public LinkedHashMap<String,String> getAuthorMap()
 		{
 			return authorMap;
 		}
-		public HashMap<Double,Activity> getActivities()
+		public LinkedHashMap<Double,Activity> getActivities()
 		{
 			return activityMap;
 		}

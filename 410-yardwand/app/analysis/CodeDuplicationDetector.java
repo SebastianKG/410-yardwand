@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CodeDuplicationDetector {
 
 	private static final String repo1 = "JUnit";
 	private static final String repo2 = "Spring";
-	private HashMap<String, ArrayList<Double>> repoMap;
+	private LinkedHashMap<String, ArrayList<Double>> repoMap;
 
 	public CodeDuplicationDetector() {
-		repoMap = new HashMap<String, ArrayList<Double>>();
+		repoMap = new LinkedHashMap<String, ArrayList<Double>>();
 		ArrayList<Double> repo1ListDates = new ArrayList<Double>();
 		ArrayList<Double> repo2ListDates = new ArrayList<Double>();
 		// REFERENCE DATES (JUnit Code Base): use these dates as a reference to
@@ -61,12 +62,32 @@ public class CodeDuplicationDetector {
 		repoMap.put(repo2, repo2ListDates);
 
 	}
-
-	public HashMap<Double, String> method1(int i) {
+	
+	/**
+	 * Runs Simian on repo1 versions (JUnit) and returns a <code>HashMap</code>
+	 * of <code>Double</code> and <code>String</code> that contains the date in
+	 * weeks, and the corresponding Simian output as a string on the version released
+	 * on that week.
+	 */
+	public HashMap<Double, String> getRepo1DuplicationAnalysis() {
+		return analyzeRepository(1);
+	}
+	
+	/**
+	 * Runs Simian on repo2 versions (Spring) and returns a <code>HashMap</code>
+	 * of <code>Double</code> and <code>String</code> that contains the date in
+	 * weeks, and the corresponding Simian output as a string on the version released
+	 * on that week.
+	 */
+	public HashMap<Double, String> getRepo2DuplicationAnalysis() {
+		return analyzeRepository(2);
+	}
+	
+	private HashMap<Double, String> analyzeRepository(int i) {
 		String[] commands = new String[5];
 		String repoName = "";
 		String[] analysisList = new String[18];
-		HashMap<Double, String> hasmap = new HashMap<Double, String>();
+		LinkedHashMap<Double, String> hashMap = new LinkedHashMap<Double, String>();
 
 		if (i == 1) {
 			repoName = repo1;
@@ -75,8 +96,6 @@ public class CodeDuplicationDetector {
 			repoName = repo2;
 		}
 
-		System.out.print("arrived at commands\n");
-
 		commands[0] = "java";
 		commands[1] = " -jar";
 		commands[2] = " 410-yardwand";
@@ -84,7 +103,7 @@ public class CodeDuplicationDetector {
 		commands[4] = "/simian-2.3.35.jar";
 		String xmlFormatOutput = " -formatter=plain ";
 
-		System.out.print("PROCESS BUILDER: \n");
+		System.out.println("Running duplication analysis on repo " + i + "...");
 
 		// THE PROCESS BUILDER:
 
@@ -125,7 +144,7 @@ public class CodeDuplicationDetector {
 			analysisList[j] = builder.toString();
 			ArrayList<Double> list = repoMap.get(repoName);
 
-			hasmap.put(list.get(j), analysisList[j]);
+			hashMap.put(list.get(j), analysisList[j]);
 
 			// System.out.println(list.get(j) + "  " + analysisList[j]);
 			// System.out.println("******************************************");
@@ -136,7 +155,8 @@ public class CodeDuplicationDetector {
 		 * for(Object objname:hasmap.keySet()) { System.out.println(objname);
 		 * System.out.println(hasmap.get(objname)); }
 		 */
-		return hasmap;
+		System.out.println("Finished processing repo " + i + ".");
+		return hashMap;
 	}
 
 	public static void main(String[] arg) {

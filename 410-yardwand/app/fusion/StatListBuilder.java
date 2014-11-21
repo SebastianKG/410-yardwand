@@ -20,7 +20,7 @@ public class StatListBuilder {
 	 * A DECAY of 1 corresponds to only looking at the weekly commits.
 	 * A DECAY of 0 corresponds to looking at all commits so far equally.
 	 */
-	private static final double DECAY = 0.23;
+	private static final double DECAY = 0.420;
 	
 	private List<Stat> stats = new ArrayList<Stat>();
 	private SimianOutputParser parser = SimianOutputParser.getInstance();
@@ -28,6 +28,9 @@ public class StatListBuilder {
 	
 	/**
 	 * Calculates <code>Stat</code>s from the outputs of analysis tools.
+	 * Call this constructor when you only have a single simian output to
+	 * create stats from. Weight is then given as an average and is constant
+	 * throughout the stat list.
 	 * @param simianOutput
 	 * 		The plaintext output to a simian analysis in <code>String</code> form.
 	 * @param weeklyCommits
@@ -41,6 +44,65 @@ public class StatListBuilder {
 		}
 		this.weeklyCommits = weeklyCommits;
 		build();
+	}
+
+	/**
+	 * Calculates <code>Stat</code>s from the outputs of analysis tools.
+	 * Call this constructor when you have a list of simian outputs.
+	 * REQUIRES: expects weeks where the data has yet to change to be
+	 * empty strings - will interpret empty strings as "no change".
+	 * @param duplicationStrings
+	 * @param weeklyCommits
+	 */
+	public StatListBuilder(List<String> duplicationStrings, List<Integer> weeklyCommits) {
+		this.weeklyCommits = weeklyCommits;
+		
+		List<Integer> weeklyLineDuplications = new ArrayList<Integer>();
+		List<Integer> weeklyBlockDuplications = new ArrayList<Integer>();
+		List<Double> weeklyBloat = new ArrayList<Double>();
+		
+		for (int i = 0; i<weeklyCommits.size(); i++) {
+			weeklyLineDuplications.add(0);
+			weeklyBlockDuplications.add(0);
+		}
+		
+		for (int i = 0; i<duplicationStrings.size(); i++) {
+			weeklyLineDuplications.remove(i);
+			weeklyBlockDuplications.remove(i);
+			if (!duplicationStrings.get(i).equals("")) {
+				try {
+					parser.parse(duplicationStrings.get(i));
+					weeklyLineDuplications.add(i, parser.getDuplicateLineCount());
+					weeklyBlockDuplications.add(i, parser.getDuplicateBlockCount());
+				} catch (UnexpectedSimianContentException e) {
+					System.err.println("In StatBuilder: " + e.getMessage());
+				}
+			} else {
+				if (i > 0) {
+					weeklyLineDuplications.add(i, weeklyLineDuplications.get(i-1));
+					weeklyBlockDuplications.add(i, weeklyBlockDuplications.get(i-1));
+				} else {
+					weeklyLineDuplications.add(0);
+					weeklyBlockDuplications.add(0);
+				}
+			}
+		}
+		System.out.println("SIZE: " + weeklyLineDuplications.size() + ", "
+				+ weeklyCommits.size() + ", " + duplicationStrings.size());
+		
+		// TODO: Generate weekly bloat, velocity, collaboration, possibly pass version to stat
+		for (int i=0; i<weeklyLineDuplications.size(); i++) {
+			weeklyBloat.add(getBloat(weeklyLineDuplications.get(i),
+					weeklyBlockDuplications.get(i)));
+		}
+		
+		List<Double> collaboration = getCollaboration();
+		List<Double> velocities = getVelocities(weeklyBloat, getTotalCommits(), collaboration);
+		for (int i=0; i<weeklyCommits.size(); i++) {
+			if (weeklyBloat.get(i) > 0) {
+				stats.add(new Stat(weeklyBloat.get(i), velocities.get(i), collaboration.get(i)));
+			}
+		}
 	}
 
 	/**
@@ -81,6 +143,15 @@ public class StatListBuilder {
 		double vbase = commits/(1+bloat);
 		for (int i=0; i<weeklyCommits.size(); i++) {
 			velocities.add(vbase + collaboration.get(i));
+		}
+		return velocities;
+	}
+	
+	private List<Double> getVelocities(List<Double> bloat, int commits,
+				List<Double> collaboration) {
+		List<Double> velocities = new ArrayList<Double>();
+		for (int i=0; i<bloat.size(); i++) {
+			velocities.add(commits/(1+bloat.get(i)) + collaboration.get(i));
 		}
 		return velocities;
 	}
@@ -129,5 +200,10 @@ public class StatListBuilder {
 	private double getBloat() {
 		return DUPL_WEIGHT * parser.getDuplicateLineCount() +
 			   (1 - DUPL_WEIGHT) * parser.getDuplicateBlockCount();
+	}
+	
+	private double getBloat(int duplicatedLineCount, int duplicatedBlockCount) {
+		return DUPL_WEIGHT * duplicatedLineCount +
+				   (1 - DUPL_WEIGHT) * duplicatedBlockCount;
 	}
 }
