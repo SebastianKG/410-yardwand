@@ -28,7 +28,6 @@ public class Application extends Controller {
 	 * note that this is not bad code and is in fact following the best practices
 	 * outlined by the Play Framework's documentation.
 	 */
-	/*public static MockCommitMetricPairingModule pairModule;*/
 	public static MetricComparator pairModule;
 	
 	/**
@@ -90,7 +89,7 @@ public class Application extends Controller {
      * 			The size to trim to, if the list is larger.
      */
     private static void trim( List<?> list, int n ) {
-    	while (list.size() > 92) {
+    	while (list.size() > n) {
     		list.remove(list.size() - 1);
     	}
     }
@@ -203,12 +202,5 @@ public class Application extends Controller {
     	}
     	
     	return speeds;
-    }
-    
-    // delete this
-    private static void printList(List<?> mylist) {
-    	for(int i = 0; i < mylist.size(); i += 1) {
-    		System.out.println(mylist.get(i));
-    	}
     }
 }
