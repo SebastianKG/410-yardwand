@@ -98,8 +98,8 @@ public class CodeDuplicationDetector {
 
 		commands[0] = "java";
 		commands[1] = " -jar";
-		commands[2] = " 410-yardwand";
-		commands[3] = "/lib";
+		commands[2] = " ";
+		commands[3] = "lib";
 		commands[4] = "/simian-2.3.35.jar";
 		String xmlFormatOutput = " -formatter=plain ";
 
@@ -108,13 +108,15 @@ public class CodeDuplicationDetector {
 		// THE PROCESS BUILDER:
 
 		for (int j = 0; j < 18; j++) {
-			String currDirectory = "\"410-yardwand/lib/code-bases/" + repoName
+			String currDirectory = "\"lib/code-bases/" + repoName
 					+ "/release" + j + "/";
 			String parseFileType = "**/*.java\"";
 
 			String cmd = commands[0] + commands[1] + commands[2] + commands[3]
 
 			+ commands[4] + xmlFormatOutput + currDirectory + parseFileType;
+
+			System.out.println(cmd);
 
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 			Process b = null;

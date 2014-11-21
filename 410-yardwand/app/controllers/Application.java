@@ -12,7 +12,6 @@ import models.Repository;
 import models.Stat;
 import fusion.InvalidRepositoryURLException;
 import fusion.MetricComparator;
-import fusion.MockCommitMetricPairingModule;
 import play.*;
 import play.mvc.*;
 import views.html.*;
@@ -53,10 +52,11 @@ public class Application extends Controller {
     	
     	pairModule = new MetricComparator(r1,r2);
     	
-    	/*pairModule = MockCommitMetricPairingModule.getInstance();*/
-    	
     	List<Stat> r1StatList = pairModule.getRepo1StatList();
     	List<Stat> r2StatList = pairModule.getRepo2StatList();
+    	
+    	System.out.println(r1StatList.size());
+    	System.out.println(r2StatList.size());
     	
     	trim(r1StatList, Math.min(r1StatList.size(), r2StatList.size()));
     	
@@ -203,5 +203,12 @@ public class Application extends Controller {
     	}
     	
     	return speeds;
+    }
+    
+    // delete this
+    private static void printList(List<?> mylist) {
+    	for(int i = 0; i < mylist.size(); i += 1) {
+    		System.out.println(mylist.get(i));
+    	}
     }
 }
