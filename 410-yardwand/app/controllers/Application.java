@@ -54,9 +54,6 @@ public class Application extends Controller {
     	List<Stat> r1StatList = pairModule.getRepo1StatList();
     	List<Stat> r2StatList = pairModule.getRepo2StatList();
     	
-    	System.out.println(r1StatList.size());
-    	System.out.println(r2StatList.size());
-    	
     	trim(r1StatList, Math.min(r1StatList.size(), r2StatList.size()));
     	
     	List<Double> combinedWeights = new LinkedList<Double>();
