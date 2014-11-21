@@ -91,7 +91,6 @@ public class CodeDuplicationDetector {
 
 		if (i == 1) {
 			repoName = repo1;
-
 		} else if (i == 2) {
 			repoName = repo2;
 		}
@@ -132,7 +131,6 @@ public class CodeDuplicationDetector {
 			try {
 				b = pb.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -148,34 +146,14 @@ public class CodeDuplicationDetector {
 				}
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			analysisList[j] = builder.toString();
 			ArrayList<Double> list = repoMap.get(repoName);
 
 			hashMap.put(list.get(j), analysisList[j]);
-
-			// System.out.println(list.get(j) + "  " + analysisList[j]);
-			// System.out.println("******************************************");
-
 		}
-		// TEST PRINT OUT:
-		/*
-		 * for(Object objname:hasmap.keySet()) { System.out.println(objname);
-		 * System.out.println(hasmap.get(objname)); }
-		 */
 		System.out.println("Finished processing repo " + i + ".");
 		return hashMap;
 	}
-
-	public static void main(String[] arg) {
-		// Tester code:
-
-		//CodeDuplicationDetector c = new CodeDuplicationDetector();
-
-		//c.method1(1);
-
-	}
-
 }

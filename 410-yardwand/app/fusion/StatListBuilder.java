@@ -8,8 +8,9 @@ import models.Stat;
 /**
  * Builds the stat lists to be sent to visualization.
  * There is an extra constructor and are extra methods for
- * legacy purposes.
- * @author Eric Furugori
+ * legacy purposes. One can run the stats on just a single
+ * Simian output using the constructor with the String
+ * simianOutput signature.
  */
 public class StatListBuilder {
 	
