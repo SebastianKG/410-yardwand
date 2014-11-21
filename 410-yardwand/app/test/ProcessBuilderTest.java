@@ -2,12 +2,15 @@ package test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
+
+import org.junit.Test;
 
 public class ProcessBuilderTest {
 
-	public static void main(String[] arg) {
+	@Test
+	public void test() {
 
 		// test comment
 		String[] commands = new String[5];
@@ -25,13 +28,14 @@ public class ProcessBuilderTest {
 		String finalCommand = "java -jar simian";
 
 		String currDirectory = "\"410-yardwand/lib/";
-		//String currDirectory = "\"";
+		// String currDirectory = "\"";
 
-		//String parseFileType = "**/*.java\"";
+		// String parseFileType = "**/*.java\"";
 		String parseFileType = "";
 
 		String cmd = commands[0] + commands[1] + commands[2] + commands[3]
-				+ commands[4] + xmlFormatOutput + currDirectory + parseFileType;
+				+ commands[4]; // + xmlFormatOutput+ currDirectory +
+								// parseFileType;
 		System.out.print(cmd + "\n");
 
 		System.out.print("PROCESS BUILDER: \n");
