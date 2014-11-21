@@ -118,12 +118,13 @@ public class CodeDuplicationDetector {
 			} else {
 				currDirectory = "\"410-yardwand/lib/code-bases/" + repoName + "/release" + j + "/";
 			}
-					
 			String parseFileType = "**/*.java\"";
 
 			String cmd = commands[0] + commands[1] + commands[2] + commands[3]
 
 			+ commands[4] + xmlFormatOutput + currDirectory + parseFileType;
+
+			System.out.println(cmd);
 
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 			Process b = null;
