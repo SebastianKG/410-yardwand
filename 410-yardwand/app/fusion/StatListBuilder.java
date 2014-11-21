@@ -5,6 +5,12 @@ import java.util.List;
 
 import models.Stat;
 
+/**
+ * Builds the stat lists to be sent to visualization.
+ * There is an extra constructor and are extra methods for
+ * legacy purposes.
+ * @author Eric Furugori
+ */
 public class StatListBuilder {
 	
 	/*
@@ -87,10 +93,7 @@ public class StatListBuilder {
 				}
 			}
 		}
-		System.out.println("SIZE: " + weeklyLineDuplications.size() + ", "
-				+ weeklyCommits.size() + ", " + duplicationStrings.size());
 		
-		// TODO: Generate weekly bloat, velocity, collaboration, possibly pass version to stat
 		for (int i=0; i<weeklyLineDuplications.size(); i++) {
 			weeklyBloat.add(getBloat(weeklyLineDuplications.get(i),
 					weeklyBlockDuplications.get(i)));

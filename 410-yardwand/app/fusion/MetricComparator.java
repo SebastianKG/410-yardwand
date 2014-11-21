@@ -84,10 +84,6 @@ public class MetricComparator {
         commitWeeks1.addAll(map1.keySet());
         commitWeeks2.addAll(map2.keySet());
         
-        // TODO: Ideally, we will pass the Repository objects to these classes to receive
-        // the simian output. For now we will use hardcoded results.
-        //MockCodeDuplicationDetector mcdd1 = new MockCodeDuplicationDetector();
-        //MockCodeDuplicationDetector mcdd2 = new MockCodeDuplicationDetector();
         CodeDuplicationDetector cdd = new CodeDuplicationDetector();
         HashMap<Double, String> duplicationMap1 = cdd.getRepo1DuplicationAnalysis();
         HashMap<Double, String> duplicationMap2 = cdd.getRepo2DuplicationAnalysis();
@@ -109,16 +105,12 @@ public class MetricComparator {
 			if (duplicationMap.keySet().iterator().hasNext()) {
 				if ((key = duplicationMap.keySet().iterator().next()) < w) {
 					duplicationStrings.add(duplicationMap.get(key));
-					//System.out.println("key: " + key);
 					duplicationMap.remove(key);
 				} else {
 					duplicationStrings.add("");
 				}
 			}
 		}
-		//for (int i=0; i<commitWeeks.size(); i++ ) {
-		//	System.out.println(!duplicationStrings.get(i).equals("") + ", " + commitWeeks.get(i));
-		//}
 		return duplicationStrings;
 	}
 

@@ -45,7 +45,6 @@ public class NewCollaboratorDetector {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return collaborators_activities;
