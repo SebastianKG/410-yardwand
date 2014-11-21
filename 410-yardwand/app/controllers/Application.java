@@ -90,7 +90,7 @@ public class Application extends Controller {
      * 			The size to trim to, if the list is larger.
      */
     private static void trim( List<?> list, int n ) {
-    	while (list.size() > n) {
+    	while (list.size() > 90) {
     		list.remove(list.size() - 1);
     	}
     }
